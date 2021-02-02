@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ApiRegisterForm;
 use Illuminate\Support\Facades\Config;
 use SMSRU;
+use App\Models\UserRegisterAttempt;
+
 
 class ApiAuthController extends Controller{
     
@@ -20,7 +22,27 @@ class ApiAuthController extends Controller{
         $phone_number = $request->get('phone_number');
         $code =  mt_rand(1111,9999);
         $key = env('SMSRU_KEY');
-        $this->sendCode($phone_number, $code);
+        
+        $registerAttempt = UserRegisterAttempt::where('phone_number', '=', $phone_number)->get()->toArray();
+        
+        
+        
+        if($registerAttempt){ 
+     
+        
+            
+        }else{
+            
+            UserRegisterAttempt::create([
+                
+                'phone_number' => $phone_number,
+                'code' => $code,
+                'attempt_count' => 1
+                
+            ]);
+            
+        }
+       // $this->sendCode($phone_number, $code);
         
         
     }
@@ -28,9 +50,6 @@ class ApiAuthController extends Controller{
     
     public function sendCode($phone_number,$code) {
         
-        dd("cool");
-        
-        /*
         $smsru = new SMSRU($key);
         $data = new \stdClass();
         $data->to = $phone_number;
@@ -39,14 +58,19 @@ class ApiAuthController extends Controller{
         $sms = $smsru->send_one($data);
 
         if ($sms->status == "OK") { 
-            echo "Сообщение отправлено успешно. ";
-            echo "ID сообщения: $sms->sms_id. ";
+         
+            //echo "Сообщение отправлено успешно. ";
+            //echo "ID сообщения: $sms->sms_id. ";
           
+    
+           
+            
+            
         } else {
             echo "Сообщение не отправлено. ";
             echo "Код ошибки: $sms->status_code. ";
             echo "Текст ошибки: $sms->status_text.";
-        }*/
+        }
         
     }
     
