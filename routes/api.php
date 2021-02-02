@@ -20,4 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //http://casino.loc/api/user/register
-Route::post('user/register', 'Api\ApiAuthController@register'); // Signup
+//Route::post('user/register', 'Api\ApiAuthController@register'); // Signup
+
+
+
+
+Route::group(['prefix' => 'auth'], function () {
+    
+   Route::post('register', 'Api\ApiAuthController@register');
+   Route::post('logout', 'Api\ApiAuthController@logout');
+   
+});
