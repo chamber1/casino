@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//http://casino.loc/api/user/register
+Route::post('user/register', 'Api\ApiAuthController@register'); // Signup
