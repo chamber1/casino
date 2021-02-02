@@ -29,7 +29,7 @@ class ApiAuthController extends Controller{
         
         if(count($registerAttempt)==3){ 
      
-          dd("3 POPITKI isteklo");
+            return response()->json(['error' => 'Was 3 attepmts to register'], 401);
             
         }else{
             
@@ -41,6 +41,9 @@ class ApiAuthController extends Controller{
     public function register(Request $request) {
         
         $phone_number = $request->get('phone_number');
+        $user_name = $request->get('name');
+        $user_email = $request->get('email');
+        $user_password = $request->get('password');
         $code =  $request->get('code');
         
         $registerAttempt = UserRegisterAttempt::where('phone_number', '=', $phone_number)->where('code', '=', $code)->get()->toArray();
@@ -49,14 +52,16 @@ class ApiAuthController extends Controller{
            
             $password ='test';
             $user = new User();
-            $user->name = $phone_number;
+            $user->name = $user_name;
             $user->phone = $phone_number;
+            $user->email = $user_email;
+            $user->password = Hash::make($user_password);
        
             $user->save();
             
         }else{
             
-            dd("SECRET CODE WRONG");
+            return response()->json(['error' => 'Secret code wrong'], 401);
             
         }
         
@@ -93,6 +98,23 @@ class ApiAuthController extends Controller{
         }
         
     }
+   /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login()
+    {
+        $credentials = request(['email', 'password']);
+
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
+    }
+    
+    
     
     /**
      * Get the authenticated User.
