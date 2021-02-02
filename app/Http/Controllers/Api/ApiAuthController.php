@@ -42,7 +42,6 @@ class ApiAuthController extends Controller{
         
         $phone_number = $request->get('phone_number');
         $user_name = $request->get('name');
-        $user_email = $request->get('email');
         $user_password = $request->get('password');
         $code =  $request->get('code');
         
@@ -50,11 +49,10 @@ class ApiAuthController extends Controller{
         
         if(isset($registerAttempt[0]) && isset($registerAttempt[0]['code'])){
            
-            $password ='test';
             $user = new User();
             $user->name = $user_name;
             $user->phone = $phone_number;
-            $user->email = $user_email;
+            //$user->email = $user_email;
             $user->password = Hash::make($user_password);
        
             $user->save();
@@ -105,8 +103,8 @@ class ApiAuthController extends Controller{
      */
     public function login()
     {
-        $credentials = request(['email', 'password']);
-
+        $credentials = request(['phone', 'password']);
+        
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
