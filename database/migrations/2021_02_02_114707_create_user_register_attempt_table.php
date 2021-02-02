@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserLoginAttemptTable extends Migration
+class CreateUserRegisterAttemptTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateUserLoginAttemptTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_login_attempt', function (Blueprint $table) {
+         Schema::create('user_register_attempt', function (Blueprint $table) {
             $table->id();
-            $table->string('phone_number',30)->unique();
+            $table->string('phone_number',30);
             $table->string('code',4);
-            $table->integer('attempt_count')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateUserLoginAttemptTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_login_attempt');
+        Schema::dropIfExists('user_register_attempt');
     }
 }

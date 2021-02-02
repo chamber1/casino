@@ -4,8 +4,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApiRegisterForm;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 use SMSRU;
 use App\Models\UserRegisterAttempt;
+use App\User;
 
 
 class ApiAuthController extends Controller{
@@ -17,40 +19,54 @@ class ApiAuthController extends Controller{
      *
      * @return 
      */
-    public function register(Request $request) {
+    public function getcode(Request $request) {
         
         $phone_number = $request->get('phone_number');
         $code =  mt_rand(1111,9999);
-        $key = env('SMSRU_KEY');
+    
         
         $registerAttempt = UserRegisterAttempt::where('phone_number', '=', $phone_number)->get()->toArray();
         
-        
-        
-        if($registerAttempt){ 
+        if(count($registerAttempt)==3){ 
      
-        
+          dd("3 POPITKI isteklo");
             
         }else{
             
-            UserRegisterAttempt::create([
-                
-                'phone_number' => $phone_number,
-                'code' => $code,
-                'attempt_count' => 1
-                
-            ]);
+            $this->sendCode($phone_number, $code);   
             
         }
-       // $this->sendCode($phone_number, $code);
+    }
+    
+    public function register(Request $request) {
         
+        $phone_number = $request->get('phone_number');
+        $code =  $request->get('code');
+        
+        $registerAttempt = UserRegisterAttempt::where('phone_number', '=', $phone_number)->where('code', '=', $code)->get()->toArray();
+        
+        if(isset($registerAttempt[0]) && isset($registerAttempt[0]['code'])){
+           
+            $password ='test';
+            $user = new User();
+            $user->name = $phone_number;
+            $user->phone = $phone_number;
+       
+            $user->save();
+            
+        }else{
+            
+            dd("SECRET CODE WRONG");
+            
+        }
         
     }
     
     
+    
     public function sendCode($phone_number,$code) {
         
-        $smsru = new SMSRU($key);
+        $smsru = new SMSRU(env('SMSRU_KEY'));
         $data = new \stdClass();
         $data->to = $phone_number;
         $data->text = 'Your code is : '.$code;
@@ -62,7 +78,11 @@ class ApiAuthController extends Controller{
             //echo "Сообщение отправлено успешно. ";
             //echo "ID сообщения: $sms->sms_id. ";
           
-    
+            UserRegisterAttempt::create([
+                
+                'phone_number' => $phone_number,
+                'code' => $code,
+            ]);
            
             
             
