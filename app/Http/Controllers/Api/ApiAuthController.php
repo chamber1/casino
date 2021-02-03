@@ -6,8 +6,8 @@ use App\Http\Requests\ApiRegisterForm;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use SMSRU;
-use App\Models\UserRegisterAttempt;
-use App\User;
+use App\Models\ClientRegisterAttempt;
+use App\Models\Client;
 
 
 class ApiAuthController extends Controller{
@@ -16,19 +16,19 @@ class ApiAuthController extends Controller{
     protected $guard = 'api';
     
     
-    
     /**
      * Access point to User who trying to register.
      *
      * @return 
      */
-    public function getcode(Request $request) {
+    public function getCode(Request $request) {
         
         $phone_number = $request->get('phone_number');
+        $phone_number = $this->formatPhoneNumber($phone_number);
         $code =  mt_rand(1111,9999);
     
         
-        $registerAttempt = UserRegisterAttempt::where('phone_number', '=', $phone_number)->get()->toArray();
+        $registerAttempt = ClientRegisterAttempt::where('phone_number', '=', $phone_number)->get()->toArray();
         
         if(count($registerAttempt)==3){ 
      
@@ -36,9 +36,9 @@ class ApiAuthController extends Controller{
             
         }else{
             
-            if($this->sendCode($phone_number, $code)){
+            if(1 /*$this->sendCode($phone_number, $code)*/){
                 
-                UserRegisterAttempt::create([
+                ClientRegisterAttempt::create([
                     'phone_number' => $phone_number,
                     'code' => $code,
                 ]);
@@ -47,36 +47,66 @@ class ApiAuthController extends Controller{
             }   
         }
     }
+   
+    
+    public function checkCode(Request $request){
+        
+        $phone_number = $request->get('phone_number');
+        $phone_number = $this->formatPhoneNumber($phone_number);
+        $code =  $request->get('code');
+        $registerAttempt = ClientRegisterAttempt::
+                where('phone_number', '=', $phone_number)->
+                where('code', '=', $code)
+                ->get()
+                ->toArray();
+        //dd($registerAttempt);
+        
+
+        if(isset($registerAttempt[0]) && isset($registerAttempt[0]['code'])){
+           
+           $this->register($request);
+            
+            return response()->json(['message' => 'Code is checked']);
+            
+        }else{
+            
+
+            return response()->json(['error' => 'Secret code wrong'], 401);
+        }
+        
+        
+    }
+    
+    public function formatPhoneNumber($phone_number){
+        
+        $pos = strpos($phone_number,'+');
+        if ($pos === false) {
+            return '+'.$phone_number;
+        } 
+        else{
+            return $phone_number;
+        }
+    }
     
     public function register(Request $request) {
         
         $phone_number = $request->get('phone_number');
+        $phone_number = $this->formatPhoneNumber($phone_number);
         $user_name = $request->get('name');
-        $user_email = $request->get('email');
-        $user_password = $request->get('password');
-        $code =  $request->get('code');
+        $password = $request->get('password');
         
-        $registerAttempt = UserRegisterAttempt::where('phone_number', '=', $phone_number)->where('code', '=', $code)->get()->toArray();
-        //dd($registerAttempt);
-        
-        
-       // var_dump($code,$phone_number) ;die;
-        if(isset($registerAttempt[0]) && isset($registerAttempt[0]['code'])){
-           
-            $user = new User();
-            $user->name = $user_name;
-            $user->phone = $phone_number;
-            $user->email = $user_email;
-            $user->password = Hash::make($user_password);
-       
-            $user->save();
-            
-        }else{
-            
-            return response()->json(['error' => 'Secret code wrong'], 401);
-            
+
+        $client = new Client();
+        $client->name = $user_name;
+        $client->phone = $phone_number;
+        $client->password = Hash::make($password);
+
+        if($client->save()){
+
+             return response()->json(['message' => 'Client registered']);
         }
-        
+           
+        return response()->json(['error' => 'Secret code wrong'], 401);
     }
     
     

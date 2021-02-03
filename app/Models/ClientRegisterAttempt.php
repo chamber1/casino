@@ -5,10 +5,10 @@ use \Illuminate\Database\Eloquent\Model;
 
 
 
-class UserRegisterAttempt extends Model {
+class ClientRegisterAttempt extends Model {
     
     
-    protected $table = 'user_register_attempt';
+    protected $table = 'client_register_attempt';
     /**
      * The attributes that are mass assignable.
      *
