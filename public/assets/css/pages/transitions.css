@@ -1,0 +1,121 @@
+/*-----------------------------------*\
+  $RESET
+\*-----------------------------------*/
+
+.butt,
+.input {
+    padding          : .75em;
+    margin           : .375em;
+    background-color : transparent;
+    border-radius    : 4px;
+}
+.butt:focus,
+.input:focus {
+    outline : none;
+}
+.butt {
+    border            : 2px solid #f35626;
+    line-height       : 1.375;
+    padding-left      : 1.5em;
+    padding-right     : 1.5em;
+    font-weight       : 700;
+    color             : #f35626;
+    cursor            : pointer;
+    -webkit-animation : CAnimation 60s infinite linear;
+    animation         : CAnimation 60s infinite linear;
+}
+.site__title {
+    color                   : #f35626;
+    background-image        : -webkit-linear-gradient(92deg, #f35626, #feab3a);
+    -webkit-background-clip : text;
+    -webkit-text-fill-color : transparent;
+    -webkit-animation       : CAnimation 60s infinite linear;
+    font-size               : 70px;
+}
+.butt--primary {
+    background-color : #f35626;
+    color            : #fff;
+}
+.input {
+    border        : 1px solid #c0c8c9;
+    border-radius : 4px;
+}
+.input--dropdown {
+    background-repeat   : no-repeat;
+    background-size     : 1.5em 1em;
+    background-position : right center;
+}
+/* Chrome, Safari, Opera */
+
+@-webkit-keyframes CAnimation {
+    from {
+        -webkit-filter : hue-rotate(0deg);
+    }
+    to {
+        -webkit-filter : hue-rotate(-360deg);
+    }
+}
+/* Standard syntax */
+
+@keyframes CAnimation {
+    from {
+        -webkit-filter : hue-rotate(0deg);
+    }
+    to {
+        -webkit-filter : hue-rotate(-360deg);
+    }
+}
+/*buttons*/
+
+.flatbuttons ul li {
+    width      : 150px;
+    float      : left;
+    padding    : 5px;
+    list-style : none;
+}
+.text-left {
+    text-align : left;
+}
+.flatbuttons div {
+    clear          : both;
+    padding-top    : 40px;
+    padding-bottom : 0;
+}
+.btn.btn-raised {
+    background-color : #E1E1E1;
+}
+#animationSandbox1,
+#animationSandbox2,
+#animationSandbox3,
+#animationSandbox4,
+#animationSandbox5,
+#animationSandbox6,
+#animationSandbox7,
+#animationSandbox8,
+#animationSandbox9,
+#animationSandbox10,
+#animationSandbox11 {
+    display : block;
+}
+/*Speech Bubbles*/
+.btn-default:not(.btn-link):not(.btn-flat),
+.btn-default:not(.btn-link):not(.btn-flat):hover,
+.btn:not(.btn-raised):not(.btn-link):hover.btn-default {
+    background-color: #e1e1e1 !important;
+}
+.hvr-bubble-top:before,
+.hvr-bubble-float-top:before{
+    border-color: transparent transparent #e1e1e1;
+}
+.hvr-bubble-right:before{
+    border-color: transparent transparent transparent #e1e1e1;
+}
+.hvr-bubble-float-bottom:before{
+    border-color: #e1e1e1 transparent transparent;
+}
+.hvr-bubble-float-right:before{
+    border-color: transparent transparent transparent #e1e1e1;
+}
+.hvr-bubble-float-left:before{
+    border-color: transparent #e1e1e1 transparent transparent;
+}

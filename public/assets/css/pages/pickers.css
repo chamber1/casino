@@ -1,0 +1,108 @@
+.btn:not(.btn-raised) {
+    margin-right: 0px;
+}
+
+.flight_takeup {
+    color: #fff;
+}
+
+.form-group-sm .form-control {
+    height: 36px!important;
+}
+
+.form-group-lg .form-control {
+    height: 46px!important;
+}
+
+.form-group.form-group-lg .checkbox label,
+.form-group.form-group-lg .radio label,
+.form-group.form-group-lg label {
+    color: #333;
+}
+
+.bootstrap-touchspin-postfix .btn-default {
+    bottom: 3px!important;
+}
+
+.form-group-lg .input-group .input-group-addon {
+    top: -2px
+}
+
+.form-group-sm .input-group .input-group-addon {
+    top: 5px;
+}
+
+.input-group-lg {
+    top: 25px;
+}
+
+
+/*verticasl buttons*/
+
+#demo_vertical,
+#demo_vertical2 {
+    width: 450px;
+}
+
+
+/*touchspin*/
+
+.bootstrap-touchspin .input-group-btn-vertical i {
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    font-size: 7px;
+    font-weight: normal;
+}
+
+
+/*input group addon*/
+
+.input-group .input-group-addon {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 0;
+}
+
+.bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-up {
+    border-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-down {
+    margin-top: -2px;
+    border-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group .form-control:not(:first-child):not(:last-child) {
+    top: 7px;
+}
+
+.last_btn .input-group-addon {
+    bottom: 6px;
+}
+
+.box-body .btn-default {
+    top: 12px;
+}
+
+.input-group-lg>.input-group-btn>.btn {
+    border-radius: 0;
+}
+
+
+/*general pickers*/
+
+.general_pickers input {
+    top: 7px;
+}
+
+.spin-up,
+.spin-down {
+    height: 12px !important;
+}
+.label_floatin
+{
+    margin-top: 20px;
+}

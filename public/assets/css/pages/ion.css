@@ -1,0 +1,259 @@
+#RGB {
+    height     : 20px;
+    background : rgb(128, 128, 128);
+}
+#RC .slider-selection {
+    background : #ef6f6c;
+}
+#RC .slider-handle {
+    background : #ef6f6c;
+}
+#GC .slider-selection {
+    background : #01bc8c;
+}
+#GC .slider-handle {
+    background : #01bc8c;
+}
+#BC .slider-selection {
+    background : #418bca;
+}
+#BC .slider-handle {
+    border-bottom-color : #418bca;
+}
+#R,
+#G,
+#B {
+    width : 300px;
+}
+#ex1Slider .slider-selection {
+    background : #EF6F6C;
+}
+#ex1Slider .slider-handle {
+    background : #cf304b;
+}
+#ex2 .slider-selection {
+    background : #418bca;
+}
+#ex2 .slider-handle {
+    background : #418bca;
+}
+#ex4 .slider-selection {
+    background : #EF6F6C;
+}
+#ex4 .slider-handle {
+    background : #EF6F6C;
+}
+#ex5 .slider-selection {
+    background : #EF6F6C;
+}
+#ex5 .slider-handle {
+    background : #EF6F6C;
+}
+#ex6 .slider-selection {
+    background : #00bc8c;
+}
+#ex6 .slider-handle {
+    background : #00bc8c;
+}
+#RED .slider-selection {
+    background : #418bca;
+}
+#RED .slider-handle {
+    background : #418bca;
+}
+.slider-disabled .slider-selection {
+    background : #aaaaaa !important;
+}
+.slider-disabled .slider-handle {
+    background : #aaaaaa !important;
+}
+#ex8 .slider-selection {
+    background : #67c5df;
+}
+#ex8 .slider-handle {
+    background : #67c5df;
+}
+#ex9 .slider-selection {
+    background : #F89A14;
+}
+#ex9 .slider-handle {
+    background : #F89A14;
+}
+label {;
+    font-weight : lighter;
+}
+.slider {
+    background : none;
+}
+.irs-bar-edge {
+    top : 25px;
+}
+/*material slider */
+
+h3 {
+    font-family    : 'Noto Sans', serif !important;
+    letter-spacing : 0;
+    font-weight    : 300;
+}
+h1 {
+    font-family    : 'Noto Sans', serif !important;
+    letter-spacing : 0;
+    font-weight    : 300;
+}
+#red,
+#green,
+#blue {
+    margin  : 10px;
+    display : inline-block;
+    height  : 200px;
+}
+#colorpicker {
+    height  : 240px;
+    width   : 310px;
+    margin  : 0 auto;
+    padding : 10px;
+    border  : 1px solid #BFBFBF;
+}
+#result {
+    margin         : 60px 26px;
+    height         : 100px;
+    width          : 100px;
+    display        : inline-block;
+    vertical-align : top;
+    color          : rgb(127, 127, 127);
+    background     : rgb(127, 127, 127);
+    border         : 1px solid #fff;
+    box-shadow     : 0 0 10px;
+}
+#red {
+    background : #c0392b;
+}
+#green {
+    background : #27ae60;
+}
+#blue {
+    background : #2980b9;
+}
+.noUi-vertical .noUi-handle .noUi-origin {
+    left : -12px;
+}
+.noUi-vertical .noUi-handle {
+    width  : 28px;
+    height : 34px;
+    left   : -11px;
+    top    : -17px;
+}
+/*custom connect*/
+
+#connect .noUi-origin {
+    right : auto;
+    width : 0;
+}
+/* Position the bar and color it. */
+
+#connect .connect {
+    position   : absolute;
+    top        : 0;
+    bottom     : 0;
+    background : #80C9F5;
+    box-shadow : inset 0 0 3px rgba(51, 51, 51, 0.45);
+}
+/* When the slider is moved by tap,
+   transition the connect bar like the handle. */
+
+#connect.noUi-state-tap .connect {
+    -webkit-transition : left 300ms, right 300ms;
+    transition         : left 300ms, right 300ms;
+}
+#input-select,
+#input-number {
+    padding : 7px;
+    margin  : 15px 5px 5px;
+    width   : 70px;
+}
+.noUi-origin .noUi-connect {
+    padding : 164px 16px;
+}
+.noUi-origin {
+    margin : 0;
+    height : 16px;
+}
+section {
+    border-bottom : none;
+}
+label {;
+    font-weight : lighter;
+}
+.irs-bar-edge {
+    position : absolute;
+    display  : block;
+    top      : 25px;
+    left     : 0;
+}
+.slider.slider-horizontal .slider-handle {
+    margin-left : -2px;
+}
+.btn-danger {
+    margin-left : 20px;
+}
+#ex6CurrentSliderValLabel {
+    margin-left : 20px;
+}
+#ex1Slider .slider-handle {
+    background : #ef6c6f;
+}
+.form-group label.control-label {
+    margin : 0;
+}
+.material .form-group label.control-label {
+    padding-top : 15px;
+}
+.content {
+    padding : 0 10px 100px;
+}
+.slider-padding {
+    margin-left : 20px !important;
+}
+.tooltip-min > .tooltip-inner {
+    display : none;
+}
+.tooltip-max > .tooltip-inner {
+    display : none;
+}
+.tooltip {
+    opacity : 0;
+}
+.form-group select {
+    -webkit-appearance : menulist;
+}
+.tooltip .tooltip-arrow {
+    display : initial;
+}
+.tooltip .tooltip-inner {
+    color            : #fff;
+    background-color : #000;
+}
+.noUi-handle.noUi-active {
+    -webkit-transform : scale3d(1, 1, 1);
+    transform         : scale3d(1, 1, 1)
+}
+#slider-date .noUi-origin {
+    background : #fafafa;
+}
+#destroyEx5Slider {
+    margin-left: 20px;
+}
+@media (min-width:320px) and (max-width:425px){
+    #destroyEx5Slider{
+        margin-top:5px;
+    }
+    #colorpicker{
+        height:230px;
+        width:230px;
+    }
+    #result{
+        margin:60px 2px;
+        height:80px;
+        width:80px;
+    }
+}

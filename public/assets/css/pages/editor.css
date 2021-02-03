@@ -1,0 +1,148 @@
+body {
+    overflow-x: hidden !important;/*to control the overflow when the summernote full screen is enabled*/
+}
+.editor-clr {
+    color : #fff;
+}
+.editor-cls {
+    width       : 100%;
+    height      : 200px;
+    font-size   : 14px;
+    line-height : 18px;
+    border      : 1px solid #dddddd;
+    padding     : 10px;
+}
+.pd-15 {
+    padding : 0 15px;
+}
+/*ck editor full*/
+.cke_dialog_ui_vbox_child .cke_dialog_ui_hbox {
+    margin-bottom :3px;
+}
+/*summer note */
+.summer_noted {
+    margin : 0;
+}
+.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    margin-right :0;
+}
+.modal.link-dialog .checkbox input[type=checkbox] {
+    opacity    : 1;
+    z-index    : 0;
+    width      : 13px;
+    height     : 13px;
+    margin-top : 5px;
+}
+.modal.link-dialog .checkbox label {
+    padding-left : 21px;
+}
+.note-editable {
+    height : 300px;
+    width  : 100%;
+}
+.well {
+    margin-bottom : 0;
+}
+.btn-group,
+.btn-group-vertical {
+    position : relative;
+    margin   : 0 1px;
+}
+.panel-heading span {
+    margin : 0;
+}
+.flip_editing {
+    margin           : 0 !important;
+    background-color : #fff;
+}
+.modal-footer .btn + .btn {
+    margin-top  : -11px !important;
+    margin-left : 5px !important;
+}
+.trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-submit:hover {
+    background-color : #01BC8C;
+}
+.trumbowyg-modal-submit {
+    background-color : #01BC8C !important;
+}
+.panel_bgcolor {
+    background-color : #F5F5F5;
+}
+.trumbowyg-modal-box .trumbowyg-modal-button.trumbowyg-modal-reset:hover {
+    background : #e6e6e6;
+}
+.note-dimension-display {
+    color : #333;
+}
+.note-editor .btn:not(.btn-raised),
+.note-editor .btn:not(.btn-raised):active {
+    margin-right: 0;
+}
+/*froala wysiwgy*/
+.class1 {
+    border-radius : 5px;
+    border        : 2px solid #efefef;
+}
+.class2 {
+    opacity : 0.5;
+}
+a[data-wysihtml5-command="insertImage"],
+.wysihtml5-toolbar > li:nth-child(5), .bootstrap-wysihtml5-insert-link-modal {
+    visibility : hidden;
+}
+.note-editable{
+    min-height: 300px;
+}
+.note-popover .popover-content .note-para .dropdown-menu, .panel-heading.note-toolbar .note-para .dropdown-menu{
+    min-width:235px !important;
+}
+@media (min-width:320px) and (max-width:425px){
+    .bootstrap-admin-panel-content .note-fontname{
+        width:138px !important;
+    }
+
+}
+@media (max-width:320px){
+    .panel-heading.note-toolbar .note-color .dropdown-menu .btn-group:first-child{
+        display: block;
+    }
+    .panel-heading.note-toolbar .note-color .dropdown-menu{
+        margin-left:0;
+        min-width:176px !important;
+    }
+    .note-para .note-btn-group .dropdown-menu{
+        left:-80px;
+    }
+
+}
+@media (max-width:375px){
+    .trumbowyg-dropdown-image{
+        left:50px !important;
+    }
+}
+@media (max-width:425px){
+    .panel-heading.note-toolbar .note-color .dropdown-menu{
+        margin-left:-48px;
+        min-width:176px !important;
+    }
+    .panel-heading.note-toolbar .note-color .dropdown-menu .btn-group:first-child{
+        display: block;
+    }
+}
+.cke_reset_all table{
+    table-layout:fixed !important;
+}
+.btn-group.note-list{
+    margin-top:5px;
+}
+@media (max-width:320px){
+    .trumbowyg-dropdown-backColor{
+        left:0 !important;
+    }
+}
+.note-palette .btn:not(.btn-raised) {
+    color: #100e0e !important;
+}
+.dropdown-menu .note-palette{
+    color: #100e0e;
+}

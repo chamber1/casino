@@ -1,0 +1,8 @@
+
+@font-face {
+  font-family: 'BurfordBase';
+  src: url('BurfordBase.eot?#iefix') format('embedded-opentype'),  url('BurfordBase.otf')  format('opentype'),
+	     url('BurfordBase.woff') format('woff'), url('BurfordBase.ttf')  format('truetype'), url('BurfordBase.svg#BurfordBase') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

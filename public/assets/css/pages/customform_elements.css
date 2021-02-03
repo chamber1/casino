@@ -1,0 +1,31 @@
+.form-group.is-focused label,.form-group.is-focused label.control-label{
+    color: #333 !important;
+}
+
+/*selectize*/
+
+.selectize-control.multi .selectize-input>.item,
+.selectize-control.multi .selectize-input>div {
+    padding: 0 10px;
+    background: #1BA1ED;
+    color: #fff;
+    border: 1px solid #0073bb;
+}
+
+.selectize-control.single .selectize-input
+{
+    padding-left: 10px;
+}
+
+.select2-selection--single {
+    height: 36px !important;
+}
+.input-group .select2-container--bootstrap {
+    width :100% !important;
+}
+.input-group .input-group-btn {
+    padding: 0;
+}
+.select2-bootstrap-append .btn:not(.btn-raised) {
+    margin-right: 0;
+}

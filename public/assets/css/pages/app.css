@@ -1,0 +1,21 @@
+.btn, .input-group-btn .btn {
+	text-transform: capitalize !important;
+}
+.panel-heading .btn {
+	margin: 0px;
+}
+.panel-heading .panel-title {
+	line-height: 28px;
+}
+.panel-body {
+	padding: 5px 15px;
+}
+.btn, .input-group-btn .btn {
+	text-transform: capitalize !important;
+}
+.form-group {
+	margin: 0px;
+}
+.nav-tabs {
+	background: none;
+}

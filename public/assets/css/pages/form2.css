@@ -1,0 +1,50 @@
+.input-group-addon.primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(50, 118, 177);
+    border-color: rgb(40, 94, 142);
+}
+
+.input-group-addon.success {
+    color: #5cb85c;
+
+}
+
+.input-group-addon.info {
+    color: rgb(255, 255, 255);
+    background-color: rgb(57, 179, 215);
+    border-color: rgb(38, 154, 188);
+}
+
+.input-group-addon.warning {
+    color: rgb(255, 255, 255);
+    background-color: rgb(240, 173, 78);
+    border-color: rgb(238, 162, 54);
+}
+
+.input-group-addon.danger {
+    color: #d9534f;
+
+}
+
+.padding {
+    padding: 9px 5px;
+}
+
+.color-pwd {
+    color: #FF0004;
+}
+
+.mar-10 {
+    margin-top: 10px
+}
+
+.mar-25 {
+    margin-top: 25px;
+}
+
+/*form validation */
+.form-group .form-control {
+    margin-bottom:0;
+}
+
+

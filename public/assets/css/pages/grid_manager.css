@@ -1,0 +1,24 @@
+.pd-30 {
+    padding: 30px;
+}
+
+.grid-info {
+    padding: 1em 0;
+    background-color: #D9EDF7;
+    border: 1px solid #A0DEF2;
+    border-radius: 1px
+}
+
+.grid-success {
+    padding: 1em 0;
+    background-color: #DFF0D8;
+    border: 1px solid #A3E69E;
+    border-radius: 1px;
+}
+
+.grid-danger {
+    padding: 1em 0;
+    background-color: #F5DFF7;
+    border: 1px solid #F0C9F5;
+    border-radius: 1px;
+}

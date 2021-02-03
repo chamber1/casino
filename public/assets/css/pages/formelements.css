@@ -1,0 +1,84 @@
+.form-group {
+    margin-top : 10px;
+}
+.pd {
+    padding    : 20px;
+    box-sizing : border-box;
+}
+.wd {
+    width : 300px
+}
+.m-t-20 {
+    margin-top :20px;
+}
+.mar-t5 {
+    margin-top : 5px;
+}
+.pd-45 {
+    padding : 45px;
+}
+.display-no {
+    display : none;
+}
+.select2-container .select2-selection--single {
+    height        : 34px;
+    border-radius : 3px !important;
+}
+.icheckbox_line-red,
+.iradio_line-red {
+    margin-bottom : 4px;
+}
+.radio label {
+    padding-left : 35px;
+}
+.label.label-success,
+.label.label-danger {
+    z-index : 0 !important;
+}
+/*advanced form*/
+
+.multiselect {
+    border-radius : 3px;
+    padding       : 4px 9px;
+}
+.adv_select .btn:not(.btn-raised) {
+    color : #777 !important;
+}
+/*custom elements*/
+
+.btn {
+    text-transform : capitalize !important;
+}
+.action_dropdown {
+    left : 25px;
+}
+.control-label {
+    margin-bottom : 10px !important;
+}
+/*multi select*/
+
+.adv_select .radio input[type=radio] {
+    opacity : 1 !important;
+    height  : 14px !important;
+    width   : 14px !important;
+}
+.checkbox input[type=checkbox] {
+    opacity : 0.9;
+    width   : 14px;
+    height  : 14px;
+    left    : 16px;
+    z-index : 0;
+}
+@media (max-width:320px){
+    .jp-card{
+        min-width:250px !important;
+    }
+    .form-group .bootstrap-switch{
+        margin-top:5px;
+    }
+
+}
+.auto_block .input-group{
+    display: block;
+}
+

@@ -1,0 +1,26 @@
+body{
+    padding-top:0;
+    position:none;
+    padding-bottom:0;
+}
+.nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+    background-color: #fff !important;
+    border: 0 !important;
+    color: #418bca !important;
+    font-weight: 500;
+}
+.nav-tabs {
+    background: #fff;
+}
+.nav-tabs {
+    border-bottom: none;
+}
+.popover.left{
+    top:-70.5px !important;
+}
+.popover{
+    background-color:#fff;
+}
+h3.popover-title {
+    color:#333;
+}

@@ -1,0 +1,180 @@
+.todolist {
+    border: 1px solid #e4d1d8;
+    margin-bottom: 10px;
+}
+
+.todolist_list {
+    display: inline-block;
+    width: 100%;
+    padding: 5px 5px 8px 15px;
+    background: #fff;
+    float: left;
+}
+
+.todolist_list:hover {
+    background: #f0f0f0;
+}
+
+.todolist header {
+    background: #418bca;
+    color: #FFF;
+    padding: 10px;
+}
+
+.todolist_list .col-md-3 {
+    margin-top: 5px;
+}
+
+.todolist_list .add {
+    border: 1px solid #fe6a0a;
+    padding: 5px 20px;
+}
+
+.todolist_list .add:hover {
+    background: #fe6a0a;
+}
+
+.todolist input {
+    font-size: 14px;
+}
+
+.todolist .li {
+    padding: 0 !important;
+}
+
+.todolist_list .showbtns {
+    opacity: 0;
+    font-size: 17px
+}
+
+.todolist_list:hover .showbtns {
+    opacity: 1;
+}
+
+#todoedit {
+    color: blue;
+    padding-right: 3px;
+}
+
+#tododelete,.trash {
+    color: #F00;
+    padding-left: 3px;
+}
+
+.tododelete,
+.tododelete:hover,.trash:hover  {
+    color: #F00 !important;
+    text-decoration: none;
+}
+
+.todolist_list > form {
+    background: #fff;
+    margin: 0 !important;
+    padding-top: 3px;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+    color: #ca0002;
+}
+
+.opacityfull {
+    opacity: 1;
+}
+
+
+/*  canvas chart */
+
+canvas {
+    width: 100% !important;
+    max-width: 800px;
+    height: auto !important;
+}
+
+.btns {
+    padding: 3px;
+    margin: 20px 0 10px 10px;
+    background-color: #7cc4da;
+    color: #000;
+}
+
+li {
+    list-style: none;
+}
+
+.adds,
+.adds:hover {
+    background: white;
+}
+
+input[type=checkbox] {
+    margin: 7px;
+}
+
+.todoitemcheck {
+    padding-top: 0;
+    float: left;
+}
+
+.checkbox {
+    margin-right: 8px!important;
+    display: block;
+}
+
+.todoitem {
+    padding-top: 12px;
+}
+
+.todoitembtns {
+    padding-top: 5px;
+    text-align: right;
+}
+
+
+/* material icons edit and delete */
+
+
+/* add task button*/
+
+.add_task {
+    margin-bottom: -74px !important;
+}
+
+.todoitemcheck .check_btn {
+    padding-left: 13px !important;
+}
+
+.todoitemjs {
+    padding-top: 14px;
+}
+
+.list1 {
+    min-height: 63px;
+}
+
+#main_input_box input {
+    width: 97%;
+}
+
+.add_button {
+    margin-top: 16px;
+    z-index: 0;
+    float: left;
+}
+
+.todoitembtns {
+    padding-top: 17px;
+}
+
+.back-to-top {
+    z-index: 1;
+}
+.adds .form-group{
+    margin:0;
+}
+ .datetimepicker-dropdown-bottom-left:before{
+     right:inherit;
+ }
+.todolist{
+    margin-bottom: 175px;
+}
