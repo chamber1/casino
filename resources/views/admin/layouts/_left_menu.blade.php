@@ -2,15 +2,15 @@
   
   <li class="nav-header">EXAMPLES</li>
   <li class="nav-item">
-    <a href="/admin/post" class="nav-link">
+    <a href="/admin/clients" class="nav-link">
       <i class="nav-icon far fa-calendar-alt"></i>
       <p>
-        test page
+        Clients
         
       </p>
     </a>
   </li>
-  <!--
+  
   <li class="nav-item">
     <a href="pages/gallery.html" class="nav-link">
       <i class="nav-icon far fa-image"></i>
@@ -107,7 +107,7 @@
       </li>
     </ul>
   </li>
-  -->
+  
   <li class="nav-item has-treeview">
     <a href="#" class="nav-link">
       <i class="nav-icon far fa-plus-square"></i>

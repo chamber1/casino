@@ -4,7 +4,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Edit Record # {{$postModel->id}}
+            Create New Record 
         </h1>
     </section>
     <!--section ends-->
@@ -30,9 +30,9 @@
                             </ul>
                         </div>
                     @endif
-                {!! Form::model($postModel, array( 'url'=>'admin/post/'.$postModel->id.'/update', 'method' => 'post')) !!}
-                    @include('admin.post._form')
-                {!! Form::close() !!}
+                    {!! Form::open(array( 'url'=>'admin/client/store', 'method' => 'post')) !!}
+                        @include('admin.client._form')
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>  

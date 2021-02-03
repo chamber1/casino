@@ -14,7 +14,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>TEST PAGE</h1>
+            <h1>Clients</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -41,12 +41,12 @@
                     @endif
                     <div class="card card-primary">
                         <div class="card-header">
-                          <h3 class="card-title">DataTable with minimal features & hover style</h3>
+                          <h3 class="card-title">Clients table </h3>
                         </div>
                           <!-- /.card-header -->
                         <div class="card-body">
                             <div class="pull-right">
-                                <a href="{{ URL::to('admin/post/create') }}" class="btn btn-sm btn-primary">
+                                <a href="{{ URL::to('admin/client/create') }}" class="btn btn-sm btn-primary">
                                     <i class="material-icons add">Create</i> 
                                 </a>
                             </div>
@@ -56,7 +56,7 @@
                                 <thead>
                                     <tr>
                                       <th>Name</th>
-                                      <th>Message</th>
+                                      <th>Phone</th>
                                       <th>Action</th>
 
                                     </tr>
@@ -102,11 +102,11 @@
             var table = $('#table1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('admin.post.data') !!}',
+                ajax: '{!! route('admin.client.data') !!}',
                 order: [[ 1, "desc" ]],
                 columns: [
-                    { data: 'title', name: 'title' },
-                    { data: 'body', name: 'body'},
+                    { data: 'name', name: 'name' },
+                    { data: 'phone', name: 'phone'},
                     { data: 'action', name: 'action', width:'200px', orderable: false, searchable: false },
 
                 ]
