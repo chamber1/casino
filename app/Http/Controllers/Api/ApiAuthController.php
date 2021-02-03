@@ -13,9 +13,12 @@ use App\User;
 class ApiAuthController extends Controller{
     
     
+    protected $guard = 'api';
+    
+    
     
     /**
-     * Send SMS Code to User who trying to register.
+     * Access point to User who trying to register.
      *
      * @return 
      */
@@ -33,8 +36,15 @@ class ApiAuthController extends Controller{
             
         }else{
             
-            $this->sendCode($phone_number, $code);   
-            
+            if($this->sendCode($phone_number, $code)){
+                
+                UserRegisterAttempt::create([
+                    'phone_number' => $phone_number,
+                    'code' => $code,
+                ]);
+                
+                return response()->json(['message' => 'Secret code Sended']);
+            }   
         }
     }
     
@@ -42,17 +52,21 @@ class ApiAuthController extends Controller{
         
         $phone_number = $request->get('phone_number');
         $user_name = $request->get('name');
+        $user_email = $request->get('email');
         $user_password = $request->get('password');
         $code =  $request->get('code');
         
         $registerAttempt = UserRegisterAttempt::where('phone_number', '=', $phone_number)->where('code', '=', $code)->get()->toArray();
+        //dd($registerAttempt);
         
+        
+       // var_dump($code,$phone_number) ;die;
         if(isset($registerAttempt[0]) && isset($registerAttempt[0]['code'])){
            
             $user = new User();
             $user->name = $user_name;
             $user->phone = $phone_number;
-            //$user->email = $user_email;
+            $user->email = $user_email;
             $user->password = Hash::make($user_password);
        
             $user->save();
@@ -66,7 +80,14 @@ class ApiAuthController extends Controller{
     }
     
     
-    
+    /**
+     * Send SMS to phone number with secret code.
+     * 
+     * @param string $phone_number
+     * @param integer $code
+     * 
+     * @return boolean
+     */
     public function sendCode($phone_number,$code) {
         
         $smsru = new SMSRU(env('SMSRU_KEY'));
@@ -77,24 +98,13 @@ class ApiAuthController extends Controller{
         $sms = $smsru->send_one($data);
 
         if ($sms->status == "OK") { 
-         
-            //echo "Сообщение отправлено успешно. ";
-            //echo "ID сообщения: $sms->sms_id. ";
-          
-            UserRegisterAttempt::create([
-                
-                'phone_number' => $phone_number,
-                'code' => $code,
-            ]);
-           
             
+            return true;
             
         } else {
-            echo "Сообщение не отправлено. ";
-            echo "Код ошибки: $sms->status_code. ";
-            echo "Текст ошибки: $sms->status_text.";
+            
+            return false;
         }
-        
     }
    /**
      * Get a JWT via given credentials.
@@ -105,7 +115,7 @@ class ApiAuthController extends Controller{
     {
         $credentials = request(['phone', 'password']);
         
-        if (! $token = auth()->attempt($credentials)) {
+        if (! $token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -121,7 +131,7 @@ class ApiAuthController extends Controller{
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(auth('api')->user());
     }
 
     /**
@@ -131,7 +141,7 @@ class ApiAuthController extends Controller{
      */
     public function logout()
     {
-        auth()->logout();
+        auth('api')->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -158,7 +168,8 @@ class ApiAuthController extends Controller{
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            //'expires_in' => auth()->factory()->getTTL() * 60
+               'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }
     
