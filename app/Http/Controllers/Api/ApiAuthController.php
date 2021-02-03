@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\ApiRegisterForm;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use SMSRU;
@@ -30,22 +30,32 @@ class ApiAuthController extends Controller{
         
         $registerAttempt = ClientRegisterAttempt::where('phone_number', '=', $phone_number)->get()->toArray();
         
-        if(count($registerAttempt)==3){ 
+        if(count($registerAttempt) == 3){ 
      
             return response()->json(['error' => 'Was 3 attepmts to register'], 401);
             
-        }else{
-            
-            if(1 /*$this->sendCode($phone_number, $code)*/){
-                
-                ClientRegisterAttempt::create([
-                    'phone_number' => $phone_number,
-                    'code' => $code,
-                ]);
-                
-                return response()->json(['message' => 'Secret code Sended']);
-            }   
         }
+            
+        if(1 /*$this->sendCode($phone_number, $code)*/){
+
+            ClientRegisterAttempt::create([
+                'phone_number' => $phone_number,
+                'code' => $code,
+            ]);
+
+            $client = Client::where('phone', '=', $phone_number)->get();
+            $client_status = 'new';
+
+            if(count($client)){
+               $client_status = 'registered';
+            }
+
+            return response()->json([
+                'message' => 'Secret code Sended',
+                'client_status' => $client_status
+            ]);
+        }   
+       
     }
    
     
@@ -63,10 +73,12 @@ class ApiAuthController extends Controller{
         
 
         if(isset($registerAttempt[0]) && isset($registerAttempt[0]['code'])){
-           
-           $this->register($request);
+         
+            $this->register($request);
             
             return response()->json(['message' => 'Code is checked']);
+            
+        
             
         }else{
             
