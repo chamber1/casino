@@ -14,12 +14,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Clients</h1>
+            <h1>Акции и мероприятия</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/admin/dashboard">Домашняя</a></li>
-              <li class="breadcrumb-item active">Клиенты</li>
+              <li class="breadcrumb-item active">Акции</li>
             </ol>
           </div>
         </div>
@@ -41,12 +41,12 @@
                     @endif
                     <div class="card card-primary">
                         <div class="card-header">
-                          <h3 class="card-title">Таблица клиентов</h3>
+                          <h3 class="card-title">Таблица акций </h3>
                         </div>
                           <!-- /.card-header -->
                         <div class="card-body">
                             <div class="pull-right">
-                                <a href="{{ URL::to('admin/client/create') }}" class="btn btn-sm btn-primary">
+                                <a href="{{ URL::to('admin/event/create') }}" class="btn btn-sm btn-primary">
                                     <i class="material-icons add">Добавить</i> 
                                 </a>
                             </div>
@@ -55,9 +55,9 @@
                             <table id="table1" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                      <th>Имя</th>
-                                      <th>Номер телефона</th>
-                                      <th>Действия</th>
+                                      <th>Название</th>
+                                      <th>Изображение</th>
+                                      <th>Action</th>
 
                                     </tr>
                                 </thead>
@@ -102,11 +102,11 @@
             var table = $('#table1').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('admin.client.data') !!}',
+                ajax: '{!! route('admin.event.data') !!}',
                 order: [[ 1, "desc" ]],
                 columns: [
                     { data: 'name', name: 'name' },
-                    { data: 'phone', name: 'phone'},
+                    { data: 'image_URL', name: 'image_URL'},
                     { data: 'action', name: 'action', width:'200px', orderable: false, searchable: false },
 
                 ]

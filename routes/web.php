@@ -30,12 +30,12 @@ Route::group(['prefix' => 'admin'],function () {
 
     
     Route::get('dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
-  
+    
     //ENTITY CLIENTS
     Route::get('clients', 'Admin\ClientController@index')->name('admin.clients');
     Route::get('client/data', 'Admin\ClientController@data')->name('admin.client.data');
     
-    //Test CRUD operations
+    //CLIENTS CRUD operations
     Route::group(['prefix' => 'client'], function () {
         
         Route::get('create', 'Admin\ClientController@create')->name('admin.client.create');
@@ -46,5 +46,22 @@ Route::group(['prefix' => 'admin'],function () {
         Route::get('{client}/delete', 'Admin\ClientController@destroy')->name('admin.client.delete');
        
     });
+    
+    //ENTITY EVENTS
+    Route::get('events', 'Admin\EventController@index')->name('admin.events');
+    Route::get('event/data', 'Admin\EventController@data')->name('admin.event.data');
+    
+    //EVENTS CRUD operations
+    Route::group(['prefix' => 'event'], function () {
+        
+        Route::get('create', 'Admin\EventController@create')->name('admin.event.create');
+        Route::post('store', 'Admin\EventController@store')->name('admin.event.store');
+        Route::get('{event}/edit', 'Admin\EventController@edit')->name('admin.event.edit');
+        Route::post('{event}/update', 'Admin\EventController@update')->name('admin.event.update');
+        Route::get('{event}/confirm-delete', 'Admin\EventController@getModalDelete')->name('event.confirm.delete');
+        Route::get('{event}/delete', 'Admin\EventController@destroy')->name('admin.event.delete');
+       
+    });
+    
     
 });

@@ -1,7 +1,7 @@
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 <div class="card card-primary">
     <div class="card-header">
-            <h3 class="card-title">Test Data Fields</h3>
+            <h3 class="card-title">Поля данных</h3>
     </div>
           <!-- /.card-header -->
 
