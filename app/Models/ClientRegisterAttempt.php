@@ -16,6 +16,7 @@ class ClientRegisterAttempt extends Model {
      */
     protected $fillable = [
         'phone_number', 'code',
+        'operation_hash','confirmed'
     ];
     
     

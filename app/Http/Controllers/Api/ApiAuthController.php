@@ -37,10 +37,15 @@ class ApiAuthController extends Controller{
         }
             
         if(1 /*$this->sendCode($phone_number, $code)*/){
-
+            
+            
+            $hash = Hash::make($phone_number.$code);
+            
             ClientRegisterAttempt::create([
                 'phone_number' => $phone_number,
                 'code' => $code,
+                'operation_hash' => $hash,
+                'confirmed' => 0
             ]);
 
             $client = Client::where('phone', '=', $phone_number)->get();
@@ -52,7 +57,8 @@ class ApiAuthController extends Controller{
 
             return response()->json([
                 'message' => 'Secret code Sended',
-                'client_status' => $client_status
+                'client_status' => $client_status,
+                'hash' => $hash    
             ]);
         }   
        
@@ -61,22 +67,33 @@ class ApiAuthController extends Controller{
     
     public function checkCode(Request $request){
         
-        $phone_number = $request->get('phone_number');
-        $phone_number = $this->formatPhoneNumber($phone_number);
+        //$phone_number = $request->get('phone_number');
+        $operation_hash  = $request->get('operation_hash');
+        //$phone_number = $this->formatPhoneNumber($phone_number);
         $code =  $request->get('code');
         $registerAttempt = ClientRegisterAttempt::
-                where('phone_number', '=', $phone_number)->
+                where('operation_hash', '=', $operation_hash)->
                 where('code', '=', $code)
-                ->get()
-                ->toArray();
-        //dd($registerAttempt);
+                ->first();
+        
+       
         
 
-        if(isset($registerAttempt[0]) && isset($registerAttempt[0]['code'])){
+        if(isset($registerAttempt->id) ){
          
-            $this->register($request);
+       
+            $registerAttempt->confirmed = 1;
+            $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $newhash = substr(str_shuffle($permitted_chars), 0, 20);
+            $registerAttempt->operation_hash = $newhash;
             
-            return response()->json(['message' => 'Code is checked']);
+            //dd($newhash);
+            $registerAttempt->save();
+                    
+            return response()->json([
+                'message' => 'Code is checked',
+                'operation_hash'=> $newhash,
+            ]);
             
         
             
@@ -89,36 +106,46 @@ class ApiAuthController extends Controller{
         
     }
     
-    public function formatPhoneNumber($phone_number){
-        
-        $pos = strpos($phone_number,'+');
-        if ($pos === false) {
-            return '+'.$phone_number;
-        } 
-        else{
-            return $phone_number;
-        }
-    }
+    
     
     public function register(Request $request) {
         
         $phone_number = $request->get('phone_number');
         $phone_number = $this->formatPhoneNumber($phone_number);
+        $operation_hash  = $request->get('operation_hash');
         $user_name = $request->get('name');
         $password = $request->get('password');
         
+        $registerAttempt = ClientRegisterAttempt::
+                where('operation_hash', '=', $operation_hash)->first();
+        
+        //dd($registerAttempt);
+     
+        if(isset($registerAttempt->id) ){
+            
+               
+                if($registerAttempt->confirmed == 1){
+                    $client = new Client();
+                    $client->name = $user_name;
+                    $client->phone = $phone_number;
+                    $client->password = Hash::make($password);
 
-        $client = new Client();
-        $client->name = $user_name;
-        $client->phone = $phone_number;
-        $client->password = Hash::make($password);
+                    if($client->save()){
 
-        if($client->save()){
-
-             return response()->json(['message' => 'Client registered']);
-        }
-           
-        return response()->json(['error' => 'Secret code wrong'], 401);
+                        return response()->json([
+                            'message' => 'Client registered',
+                            'client_id' => $client->id,
+                        ]);
+                    
+                        
+                    }else{
+                        
+                        return response()->json(['error' => 'Client not registered'], 400);
+                    }
+                
+                }
+        }  
+       
     }
     
     
@@ -164,7 +191,16 @@ class ApiAuthController extends Controller{
         return $this->respondWithToken($token);
     }
     
-    
+    public function formatPhoneNumber($phone_number){
+        
+        $pos = strpos($phone_number,'+');
+        if ($pos === false) {
+            return '+'.$phone_number;
+        } 
+        else{
+            return $phone_number;
+        }
+    }
     
     /**
      * Get the authenticated User.
@@ -210,8 +246,7 @@ class ApiAuthController extends Controller{
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            //'expires_in' => auth()->factory()->getTTL() * 60
-               'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }
     

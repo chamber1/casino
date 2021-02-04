@@ -17,7 +17,10 @@ class CreateClientRegisterAttemptTable extends Migration
             $table->id();
             $table->string('phone_number',30);
             $table->string('code',4);
-            $table->timestamps();
+            $table->string('operation_hash',100);
+            $table->boolean('confirmed')->default(0);
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

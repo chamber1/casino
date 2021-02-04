@@ -27,4 +27,14 @@ Route::group(['prefix' => 'auth','middleware' => 'apitoken'], function () {
    Route::post('login', 'Api\ApiAuthController@login');
    Route::post('logout', 'Api\ApiAuthController@logout');
    
+ 
+   
+   
 });
+
+Route::group(['prefix' => 'events','middleware' => 'apitoken'], function () {
+    
+    Route::post('all', 'Api\ApiEventController@events');
+    
+});
+  

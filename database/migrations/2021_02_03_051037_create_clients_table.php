@@ -17,10 +17,11 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('phone')->unique();
-            $table->integer('role_id')->nullable();
+            $table->integer('status_id')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

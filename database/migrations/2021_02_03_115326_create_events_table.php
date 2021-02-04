@@ -18,7 +18,8 @@ class CreateEventsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('image_URL',250)->nullable();
-            $table->timestamps();
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 
