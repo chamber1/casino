@@ -4,11 +4,11 @@
 
 </div>
 <div class="modal-body">
-   Do you really want to delete this record?
+   Вы действительно хотите удалить эту запись ?
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
   @if(!$error)
-    <a href="{{ $confirm_route }}" type="button" class="btn btn-danger">Yes</a>
+    <a href="{{ $confirm_route }}" type="button" class="btn btn-danger">Да</a>
   @endif
 </div>

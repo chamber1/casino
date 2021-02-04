@@ -1,7 +1,7 @@
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 <div class="card card-primary">
     <div class="card-header">
-            <h3 class="card-title">Поля данных</h3>
+            <h3 class="card-title">Пожалуйста заполните форму</h3>
     </div>
           <!-- /.card-header -->
 
@@ -12,7 +12,7 @@
         </div>
         <div class="form-group">
           <label for="name">Описание</label>
-          {!! Form::textarea('description', null, array('class' => 'form-control', 'placeholder'=>'Enter message')) !!}
+          {!! Form::textarea('description', null, array('class' => 'form-control', 'placeholder'=>'Введите описание')) !!}
         </div>
         <div class="form-group img-area" >
             <label>
@@ -21,7 +21,7 @@
             <div class="fileupload fileupload-new" data-provides="fileupload">
                     <span class="btn btn-default btn-sm">
                         <span class="fileupload-new">Загрузить</span>
-                        {!! Form::file('image', null, array('class' => 'form-control')) !!}
+                        {!! Form::file('image_URL', null, array('class' => 'form-control')) !!}
                     </span>
             </div>
             @if(isset($event->image_URL) && !empty($event->image_URL))
@@ -41,8 +41,8 @@
     <!-- /.card-body -->
 
     <div class="card-footer">
-        <a href="{{ route('admin.clients')}}" class="btn btn-danger">Back</a>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{{ route('admin.events')}}" class="btn btn-danger">Отмена</a>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
     </div>
 
 </div>

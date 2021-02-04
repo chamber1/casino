@@ -2,17 +2,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Event;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\EventRequest;
+use \Illuminate\Http\Request;
+use App\Services\ImageService;
 use Yajra\DataTables\DataTables;
+use App\Http\Requests\EventRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
-use App\Services\ImageService;
-
 
 /**
  * Handles ADMIN PANEL events
@@ -96,10 +95,11 @@ class EventController extends Controller{
         $event->description = $request->input('description');
         $event->image_URL = null; 
         $event->save();
-        
-        
+    
+
         if ($request->hasFile('image_URL'))
         {
+           
             $image          = $request->file('image_URL');
             $extension      = $image->extension()?: 'png';
             $filenameOrigin = uniqid();
