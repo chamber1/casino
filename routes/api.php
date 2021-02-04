@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'auth'], function () {
+Route::group(['prefix' => 'auth','middleware' => 'apitoken'], function () {
   ///api/auth/getcode
    Route::post('getcode', 'Api\ApiAuthController@getCode');
    Route::post('checkcode', 'Api\ApiAuthController@checkCode');
