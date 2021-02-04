@@ -24,6 +24,7 @@
                         {!! Form::file('image_URL', null, array('class' => 'form-control')) !!}
                     </span>
             </div>
+           
             @if(isset($event->image_URL) && !empty($event->image_URL))
                 <span class="fileupload-preview">
                         <a href="{{URL::to($event->image_URL)}}" target="_blank" >

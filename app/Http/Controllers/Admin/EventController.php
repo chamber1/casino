@@ -2,7 +2,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Event;
-use \Illuminate\Http\Request;
+//use \Illuminate\Http\Request;
+use Request;
 use App\Services\ImageService;
 use Yajra\DataTables\DataTables;
 use App\Http\Requests\EventRequest;
@@ -56,6 +57,8 @@ class EventController extends Controller{
 
     public function create()
     {
+        
+     
         return view('admin.event.create');
     }
     
@@ -65,7 +68,7 @@ class EventController extends Controller{
     {   
         $eventModel = Event::find($event->id);
         
-        return view('admin.event.edit',compact('eventModel'));
+        return view('admin.event.edit',compact('eventModel','event'));
     }
 
     public function update(EventRequest $request,Event $event)
@@ -110,7 +113,7 @@ class EventController extends Controller{
                 mkdir($dir_path);
             }
             $image_resize->save(public_path('uploads/events/' .$event->id. '/' .$filename));
-            $event->image_URL = '/uploads/events/' .$event->id. '/' .$filename;
+            $event->image_URL = "http://".Request::server ("HTTP_HOST").'/uploads/events/' .$event->id. '/' .$filename;
         }
         
         $event->save();
