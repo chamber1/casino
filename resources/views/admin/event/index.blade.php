@@ -15,6 +15,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>Акции и мероприятия</h1>
+           
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -56,6 +57,7 @@
                                 <thead>
                                     <tr>
                                       <th>Название</th>
+                                      <th>Описание</th>
                                       <th>Изображение</th>
                                       <th>Action</th>
 
@@ -106,7 +108,8 @@
                 order: [[ 1, "desc" ]],
                 columns: [
                     { data: 'name', name: 'name' },
-                    { data: 'image_URL', name: 'image_URL',render: previewImg},
+                    { data: 'description', name: 'description' },
+                    { data: 'image_URL', name: 'image_URL',render: previewImg },
                     { data: 'action', name: 'action', width:'200px', orderable: false, searchable: false },
 
                 ]
@@ -115,7 +118,7 @@
         
         function previewImg(data, type, full, meta) {
            
-            console.log(data);
+            
             return '<img height="100px" src="'+data+'" />';
             
         }

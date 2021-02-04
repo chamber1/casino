@@ -4,7 +4,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Редактирование записи # {{$eventModel->id}}
+            Редактирование записи # {{$event->id}}
         </h1>
     </section>
     <!--section ends-->
@@ -30,7 +30,7 @@
                             </ul>
                         </div>
                     @endif
-                {!! Form::model($eventModel, array( 'url'=>'admin/event/'.$eventModel->id.'/update', 'method' => 'post')) !!}
+                {!! Form::model($event, array( 'url'=>'admin/event/'.$event->id.'/update', 'method' => 'post','files' => true)) !!}
                     @include('admin.event._form')
                 {!! Form::close() !!}
                 </div>

@@ -25,20 +25,21 @@ class EventController extends Controller{
     public function __construct()
     {
         $this->middleware('auth');
-     
+        $this->server_URL = "http://".Request::server ("HTTP_HOST");
+        $this->images_path = '/uploads/images/events/';
     }
     
     public function index() {
 
-        
-        return view('admin/event/index');   
+        $server_URL = $this->server_URL;
+        return view('admin/event/index', compact('server_URL'));   
     }
     
   
     
     public function data() {
         
-        $tables = Event::select(['id', 'name','image_URL']);
+        $tables = Event::select(['id', 'name','description','image_URL']);
      
         return DataTables::of($tables)
             ->addColumn('action', function (Event $tables) {
@@ -64,23 +65,42 @@ class EventController extends Controller{
     
     
     
-    public function edit(Request $request,Event $event)
+    public function edit(EventRequest $request,Event $event)
     {   
-        $eventModel = Event::find($event->id);
-        
-        return view('admin.event.edit',compact('eventModel','event'));
+       
+   
+        return view('admin.event.edit',compact('event'));
     }
 
     public function update(EventRequest $request,Event $event)
     {
        
         $event->name = $request->input('name');
-        //$client->user_id = Auth::user()->id;
+        $event->description = $request->input('description');
         
-        $client->phone = $request->input('phone');
         
-        if ($client->update()) {
-           return redirect()->back()->withSuccess('Record updated');;
+        if ($request->hasFile('image_URL'))
+        {
+            if(file_exists(public_path($event->image_URL))) {
+                unlink(public_path($event->image_URL));
+            }
+            $image          = $request->file('image_URL');
+            $extension      = $image->extension()?: 'png';
+            $filenameOrigin = uniqid();
+            $filename       = $filenameOrigin.'.'.$extension;
+            $image_resize   = Image::make($image->getRealPath());
+            $dir_path = public_path($this->images_path);
+            if (!is_dir($dir_path)) {
+                mkdir($dir_path);
+            }
+            $image_resize->save(public_path($this->images_path .$filename));
+            $event->image_URL = $this->images_path .$filename;
+        }
+        
+       
+        
+        if ($event->update()) {
+           return redirect()->back()->withSuccess('Запись обновлена');;
         } 
     }
     
@@ -98,29 +118,29 @@ class EventController extends Controller{
         $event->description = $request->input('description');
         $event->image_URL = null; 
         $event->save();
-    
+        
 
         if ($request->hasFile('image_URL'))
         {
-           
+            $server_URL = "http://".Request::server ("HTTP_HOST");
             $image          = $request->file('image_URL');
             $extension      = $image->extension()?: 'png';
             $filenameOrigin = uniqid();
             $filename       = $filenameOrigin.'.'.$extension;
             $image_resize   = Image::make($image->getRealPath());
-            $dir_path = public_path('/uploads/events/' .$event->id);
+            $dir_path = public_path($this->images_path);
             if (!is_dir($dir_path)) {
                 mkdir($dir_path);
             }
-            $image_resize->save(public_path('uploads/events/' .$event->id. '/' .$filename));
-            $event->image_URL = "http://".Request::server ("HTTP_HOST").'/uploads/events/' .$event->id. '/' .$filename;
+            $image_resize->save(public_path($this->images_path .$filename));
+            $event->image_URL = $this->images_path .$filename;
         }
         
         $event->save();
 
         if ($event->id) {
             
-            return redirect('admin/event/'.$event->id.'/edit')->with('success', 'Record created');
+            return redirect('admin/event/'.$event->id.'/edit')->with('success', 'Запись успешно добавлена');
            
         }else{
             
@@ -157,9 +177,13 @@ class EventController extends Controller{
     public function destroy(Event $event){
         
         
-        if(Event::find($event->id)->delete()){
+        if(file_exists(public_path($event->image_URL))) {
+            unlink(public_path($event->image_URL));
+        }
+        
+        if($event->delete()){
             
-            return redirect('admin/events/')->with('success', 'Record deleted');
+            return redirect('admin/events/')->with('success', 'Запись успешно удалена');
             
             
         }

@@ -31,10 +31,7 @@
                             <img src="{{URL::to($event->image_URL)}}" style="max-height: 60px" class="img-responsive" alt="Image">
                         </a>
                     </span>
-                <label class="check-for-delete-file">
-                    <input type="checkbox" name="delete_image"  >
-                    Удалить изображение
-                </label>
+                
             @endif
         </div>
 
