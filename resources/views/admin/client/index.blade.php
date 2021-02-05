@@ -45,11 +45,13 @@
                         </div>
                           <!-- /.card-header -->
                         <div class="card-body">
+                            
+                            <!--
                             <div class="pull-right">
                                 <a href="{{ URL::to('admin/client/create') }}" class="btn btn-sm btn-primary">
                                     <i class="material-icons add">Добавить</i> 
                                 </a>
-                            </div>
+                            </div> -->
                             
                         
                             <table id="table1" class="table table-bordered table-hover">

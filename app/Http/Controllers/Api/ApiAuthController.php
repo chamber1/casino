@@ -24,8 +24,8 @@ class ApiAuthController extends Controller{
     public function getCode(Request $request) {
         
         $phone_number = $request->get('phone_number');
-        $phone_number = $this->formatPhoneNumber($phone_number);
-        $code =  mt_rand(1111,9999);
+        //$phone_number = $this->formatPhoneNumber($phone_number);
+        $code =  mt_rand(1000,9999);
     
         
         $registerAttempt = ClientRegisterAttempt::where('phone_number', '=', $phone_number)->get()->toArray();
@@ -142,7 +142,6 @@ class ApiAuthController extends Controller{
                         
                         return response()->json(['error' => 'Client not registered'], 400);
                     }
-                
                 }
         }  
        
@@ -150,7 +149,7 @@ class ApiAuthController extends Controller{
     
     
     /**
-     * Send SMS to phone number with secret code.
+     * Send SMS Via SMS.ru to phone number with secret code.
      * 
      * @param string $phone_number
      * @param integer $code
@@ -175,7 +174,8 @@ class ApiAuthController extends Controller{
             return false;
         }
     }
-   /**
+    
+    /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse

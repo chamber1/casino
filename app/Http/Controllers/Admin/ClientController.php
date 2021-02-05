@@ -43,12 +43,12 @@ class ClientController extends Controller{
      
         return DataTables::of($tables)
             ->addColumn('action', function (Client $tables) {
-                $html = '<a href="' . URL::to('admin/client/' . $tables->id . '/edit') . '" class="btn btn btn-primary btn-sm btn-sm-table"><i class="fa fa-edit"></i>Edit</a>&nbsp;&nbsp;&nbsp;';
-                $html.= '<a href="'.URL::to('admin/client/' . $tables->id . '/confirm-delete').'" 
+                $html = '<a href="' . URL::to('admin/client/' . $tables->id . '/edit') . '" class="btn btn btn-primary btn-sm btn-sm-table"><i class="fa fa-edit"></i>Show</a>&nbsp;&nbsp;&nbsp;';
+                /*$html.= '<a href="'.URL::to('admin/client/' . $tables->id . '/confirm-delete').'" 
                                     class="btn btn btn-danger btn-sm delete-modal btn-sm-table"
                                     data-toggle="modal" data-target="#delete_confirm">
                                     <i class="fa fa-trash-o"></i>Delete
-                              </a>';
+                              </a>'*/;
                 return $html;
             })
             ->removeColumn('id')

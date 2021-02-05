@@ -4,7 +4,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Edit Record # {{$clientModel->id}}
+            Клиент # {{$clientModel->id}}
         </h1>
     </section>
     <!--section ends-->
