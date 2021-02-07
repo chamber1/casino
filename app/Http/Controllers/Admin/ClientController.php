@@ -25,13 +25,19 @@ class ClientController extends Controller{
         $this->middleware('auth');
     }
     
+     /**
+     * Shows All Clients .
+     * 
+     *
+     * @return clients Data grid view
+     */
     public function index() {
-
+        
         return view('admin/client/index');   
     }
     
     /**
-     * Get All Clients.
+     * Get All Clients data.
      * 
      *
      * @return DataTables object
@@ -66,6 +72,8 @@ class ClientController extends Controller{
     /**
      * Edit client form.
      * 
+     * @param ClientRequest $request
+     * @param Client $client Model
      *
      * @return view
      */
