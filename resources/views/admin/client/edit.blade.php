@@ -4,7 +4,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Клиент # {{$clientModel->id}}
+            Клиент # {{$client->id}}
         </h1>
     </section>
     <!--section ends-->
@@ -30,7 +30,7 @@
                             </ul>
                         </div>
                     @endif
-                {!! Form::model($clientModel, array( 'url'=>'admin/client/'.$clientModel->id.'/update', 'method' => 'post')) !!}
+                {!! Form::model($client, array( 'url'=>'admin/client/'.$client->id.'/update', 'method' => 'post')) !!}
                     @include('admin.client._form')
                 {!! Form::close() !!}
                 </div>
