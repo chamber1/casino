@@ -1,46 +1,49 @@
 <?php
 namespace App\Http\Controllers\Api;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
 use SMSRU;
-use App\Models\ClientRegisterAttempt;
 use App\Models\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Config;
+use App\Models\ClientRegisterAttempt;
 
-
+/**
+ * Handles Client API Authorization
+ *
+ * @author Yuriy Yurenko <yurenkoyura@gmail.com>
+ */
 class ApiAuthController extends Controller{
     
-    
+    /**
+    * Middleware guard
+    *
+    * @var string
+    */
     protected $guard = 'api';
     
-    
     /**
-     * Access point to User who trying to register.
+     * Access point to Client who trying to register.
+     * Generate 4 digits code and send via SMS
      *
-     * @return 
+     * @return  \Illuminate\Http\JsonResponse
      */
     public function getCode(Request $request) {
         
         $phone_number = $request->get('phone_number');
-        //$phone_number = $this->formatPhoneNumber($phone_number);
+        $phone_number = $this->formatPhoneNumber($phone_number);
         $code =  mt_rand(1000,9999);
-    
-        
         $registerAttempt = ClientRegisterAttempt::where('phone_number', '=', $phone_number)->get()->toArray();
         
         if(count($registerAttempt) == 3){ 
      
             return response()->json(['error' => 'Was 3 attepmts to register'], 401);
-            
         }
             
         if(1 /*$this->sendCode($phone_number, $code)*/){
             
-            
             $hash = Hash::make($phone_number.$code);
-            
             ClientRegisterAttempt::create([
                 'phone_number' => $phone_number,
                 'code' => $code,
@@ -50,9 +53,9 @@ class ApiAuthController extends Controller{
 
             $client = Client::where('phone', '=', $phone_number)->get();
             $client_status = 'new';
-
+            
             if(count($client)){
-               $client_status = 'registered';
+                $client_status = 'registered';
             }
 
             return response()->json([
@@ -61,33 +64,30 @@ class ApiAuthController extends Controller{
                 'hash' => $hash    
             ]);
         }   
-       
     }
-   
     
+    /**
+     * Checks 4 digits code sended via SMS
+     * by code and phone number
+     *
+     * @param Request $request 
+     * 
+     * @return  \Illuminate\Http\JsonResponse
+     */
     public function checkCode(Request $request){
         
-        //$phone_number = $request->get('phone_number');
+        $phone_number = $request->get('phone_number');
         $operation_hash  = $request->get('operation_hash');
-        //$phone_number = $this->formatPhoneNumber($phone_number);
+        $phone_number = $this->formatPhoneNumber($phone_number);
         $code =  $request->get('code');
-        $registerAttempt = ClientRegisterAttempt::
-                where('operation_hash', '=', $operation_hash)->
-                where('code', '=', $code)
-                ->first();
+        $registerAttempt = ClientRegisterAttempt::where('operation_hash', '=', $operation_hash)->where('code', '=', $code)->first();
         
-       
-        
-
         if(isset($registerAttempt->id) ){
          
-       
             $registerAttempt->confirmed = 1;
             $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $newhash = substr(str_shuffle($permitted_chars), 0, 20);
             $registerAttempt->operation_hash = $newhash;
-            
-            //dd($newhash);
             $registerAttempt->save();
                     
             return response()->json([
@@ -95,19 +95,20 @@ class ApiAuthController extends Controller{
                 'operation_hash'=> $newhash,
             ]);
             
-        
-            
         }else{
             
-
             return response()->json(['error' => 'Secret code wrong'], 401);
         }
-        
-        
     }
     
-    
-    
+    /**
+     * Perform client registration
+     * by code and phone number
+     *
+     * @param Request $request 
+     * 
+     * @return  \Illuminate\Http\JsonResponse
+     */
     public function register(Request $request) {
         
         $phone_number = $request->get('phone_number');
@@ -116,38 +117,31 @@ class ApiAuthController extends Controller{
         $user_name = $request->get('name');
         $password = $request->get('password');
         
-        $registerAttempt = ClientRegisterAttempt::
-                where('operation_hash', '=', $operation_hash)->first();
-        
-        //dd($registerAttempt);
-     
+        $registerAttempt = ClientRegisterAttempt::where('operation_hash', '=', $operation_hash)->first();
+    
         if(isset($registerAttempt->id) ){
             
-               
-                if($registerAttempt->confirmed == 1){
-                    $client = new Client();
-                    $client->name = $user_name;
-                    $client->phone = $phone_number;
-                    $client->password = Hash::make($password);
+            if($registerAttempt->confirmed == 1){
+                $client = new Client();
+                $client->name = $user_name;
+                $client->phone = $phone_number;
+                $client->password = Hash::make($password);
 
-                    if($client->save()){
+                if($client->save()){
 
-                        return response()->json([
-                            'message' => 'Client registered',
-                            'client_id' => $client->id,
-                        ]);
-                    
-                        
-                    }else{
-                        
-                        return response()->json(['error' => 'Client not registered'], 400);
-                    }
+                    return response()->json([
+                        'message' => 'Client registered',
+                        'client_id' => $client->id,
+                    ]);
+
+                }else{
+
+                    return response()->json(['error' => 'Client not registered'], 400);
                 }
+            }
         }  
-       
     }
-    
-    
+
     /**
      * Send SMS Via SMS.ru to phone number with secret code.
      * 
@@ -195,9 +189,11 @@ class ApiAuthController extends Controller{
         
         $pos = strpos($phone_number,'+');
         if ($pos === false) {
+            
             return '+'.$phone_number;
         } 
         else{
+            
             return $phone_number;
         }
     }
@@ -249,6 +245,6 @@ class ApiAuthController extends Controller{
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }
-    
-    
 }
+               
+            
