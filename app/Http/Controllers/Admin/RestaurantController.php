@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Restaurant;
+use App\Models\RestaurantImage;
 use Request;
 use App\Services\ImageService;
 use Yajra\DataTables\DataTables;
@@ -142,15 +143,23 @@ class RestaurantController extends Controller{
         {
             $image = $request->file('main_image_URL');
             $restaurant->main_image_URL = $this->copyImage($image);
+            $restaurant->save();
         }
-        
-        if ($request->hasFile('menu_image_URL'))
+        /*
+        if ($request->hasFile('images'))
         {
-            $image = $request->file('menu_image_URL');
-            $restaurant->menu_image_URL = $this->copyImage($image);
-        }
+            $menu_image = new RestaurantImage();
+            $menu_image->restaurant_id = $restaurant->id;
+            $images = $request->file('images');
+            foreach ($images as $file) {
+                
+                $menu_image->menu_image_URL = $this->copyImage($file);
+                $menu_image->save();
+            }
+           
+        }*/
         
-        $restaurant->save();
+       
         if ($restaurant->id) {
             
             return redirect('admin/restaurant/'.$restaurant->id.'/edit')->with('success', 'Запись успешно добавлена');
@@ -221,11 +230,11 @@ class RestaurantController extends Controller{
         if(file_exists(public_path($restaurant->main_image_URL))) {
             unlink(public_path($restaurant->main_image_URL));
         }
-        
+        /*
         if(file_exists(public_path($restaurant->menu_image_URL))) {
             unlink(public_path($restaurant->menu_image_URL));
         }
-        
+        */
         if($restaurant->delete()){
             return redirect('admin/restaurant/')->with('success', 'Запись успешно удалена');
         }

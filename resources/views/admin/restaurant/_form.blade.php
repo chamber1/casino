@@ -37,7 +37,9 @@
             <div class="fileupload fileupload-new" data-provides="fileupload">
                     <span class="btn btn-default btn-sm">
                         <span class="fileupload-new">Загрузить</span>
-                        {!! Form::file('menu_image_URL', null, array('class' => 'form-control')) !!}
+                     <!--   {!! Form::file('menu_image_URL[]', null, array('class' => 'form-control','multiple'=>true,'accept'=>'image/*')) !!} -->
+                        
+                        {{ Form::file('images[]', ['multiple']) }}
                     </span>
             </div>
            
