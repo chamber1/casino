@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
-use App\Models\ClientRegisterAttempt;
+use App\Models\ClientRegister;
 
 /**
  * Handles Client API Authorization
@@ -24,6 +24,19 @@ class ApiAuthController extends Controller{
     protected $guard = 'api';
     
     /**
+    * Allowed register attempts count for client 
+    *
+    * @var integer
+    */
+    public $allowed_attempts_count = 3;
+    
+    /**
+    * Interval between SMS in minutes
+    *
+    * @var integer
+    */
+    public $allowed_sms_interval = 0;
+    /**
      * Access point to Client who trying to register.
      * Generate 4 digits code and send via SMS
      *
@@ -31,39 +44,92 @@ class ApiAuthController extends Controller{
      */
     public function getCode(Request $request) {
         
-        $phone_number = $request->get('phone_number');
+        $phone_number = $request->get('phone');
         $phone_number = $this->formatPhoneNumber($phone_number);
-        $code =  mt_rand(1000,9999);
-        $registerAttempt = ClientRegisterAttempt::where('phone_number', '=', $phone_number)->get()->toArray();
-        
-        if(count($registerAttempt) == 3){ 
-     
-            return response()->json(['error' => 'Was 3 attepmts to register'], 401);
-        }
+       
+        //check is client with phone number not registered
+        if(!$this->checkClientRegistered($phone_number)){
             
-        if(1 /*$this->sendCode($phone_number, $code)*/){
+            $registerAttempt = ClientRegister::where('phone_number', '=', $phone_number)->first();
             
-            $hash = Hash::make($phone_number.$code);
-            ClientRegisterAttempt::create([
-                'phone_number' => $phone_number,
-                'code' => $code,
-                'operation_hash' => $hash,
-                'confirmed' => 0
-            ]);
-
-            $client = Client::where('phone', '=', $phone_number)->get();
-            $client_status = 'new';
-            
-            if(count($client)){
-                $client_status = 'registered';
+            //if client not attemp to register
+            if(!isset($registerAttempt->id)){
+                
+                $code =  mt_rand(1000,9999);
+                //$this->sendCode($phone_number, $code)*
+                ClientRegister::create([
+                    'phone_number' => $phone_number,
+                    'code' => $code,
+                    'attempts' => 1,
+                    'status' => 'new'
+                ]);    
+                
+                return response()->json([
+                    'message' => 'Code sended',
+                    'attempt' => 1,
+                    'code' => $code,
+                ]);
+                
+            }else{
+                //if clients attemp to register check attempts
+                if($registerAttempt->attempts == $this->allowed_attempts_count){
+                    
+                    return response()->json([
+                        'error' => $this->allowed_attempts_count.'  allowed attempts count expired',
+                    ],400);
+                }
+                
+                $curdate = date("Y-m-d H:i:s");
+                $datetime1 = date_create($curdate);
+                $interval = date_diff($datetime1,$registerAttempt->updated_at);
+                $difference = $interval->format("%i") ; //if zero then interval less than 1 minute
+                
+                //check interval of sending 1 minute
+                if($difference >= $this->allowed_sms_interval){
+                    
+                    $code =  mt_rand(1000,9999);
+                    $current_attempts = $registerAttempt->attempts;
+                    $new_attempt = $current_attempts+1;
+                    
+                    $registerAttempt->code = $code;
+                    $registerAttempt->attempts = $new_attempt;
+                    $registerAttempt->status = 'new';
+                    $registerAttempt->save();
+                    
+                    return response()->json([
+                        'message' => 'Code sended',
+                        'attempt' => $new_attempt,
+                        'code' => $code,
+                    ]);
+                    
+                }else{
+                    
+                    return response()->json([
+                        'message' => 'Resending code will be after '.$this->allowed_sms_interval.' minute(s)',
+                    ]);
+                }
             }
+        }
+    }   
+    
+    
+    /**
+     * Checks is Client already registered
+     * by code and phone number
+     *
+     * @param string $$phone_number 
+     * 
+     * @return  \Illuminate\Http\JsonResponse
+     */
+    public function checkClientRegistered($phone_number){
+        
+        $client = Client::where('phone', '=', $phone_number)->get();
 
-            return response()->json([
-                'message' => 'Secret code Sended',
-                'client_status' => $client_status,
-                'hash' => $hash    
-            ]);
-        }   
+        if(isset($client[0]->id)){
+           return true;
+        }else{
+            return false;
+        }       
     }
     
     /**
@@ -76,28 +142,42 @@ class ApiAuthController extends Controller{
      */
     public function checkCode(Request $request){
         
-        $phone_number = $request->get('phone_number');
-        $operation_hash  = $request->get('operation_hash');
+        $phone_number = $request->get('phone');
         $phone_number = $this->formatPhoneNumber($phone_number);
         $code =  $request->get('code');
-        $registerAttempt = ClientRegisterAttempt::where('operation_hash', '=', $operation_hash)->where('code', '=', $code)->first();
+        
+        $registerAttempt = ClientRegister::where('phone_number', '=', $phone_number)->first();
         
         if(isset($registerAttempt->id) ){
-         
-            $registerAttempt->confirmed = 1;
-            $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $newhash = substr(str_shuffle($permitted_chars), 0, 20);
-            $registerAttempt->operation_hash = $newhash;
-            $registerAttempt->save();
-                    
-            return response()->json([
-                'message' => 'Code is checked',
-                'operation_hash'=> $newhash,
-            ]);
+                
+            if($registerAttempt->status == 'failed'){
+                
+                return response()->json([
+                    'error' => 'Secret code Failed',
+                ],400);
+            }
             
+            if($registerAttempt->code == $code){
+                
+                $registerAttempt->status = 'checked';
+                $registerAttempt->save();
+                
+                return response()->json([
+                    'message' => 'Code is checked',
+                ]);
+                
+            }else{
+                
+                $registerAttempt->status = 'failed';
+                $registerAttempt->save();
+                
+                return response()->json([
+                    'error' => 'Secret code wrong',
+                ],400);
+            }
         }else{
             
-            return response()->json(['error' => 'Secret code wrong'], 401);
+            return response()->json(['error' => 'Not found registration record for this phone number'], 400);
         }
     }
     
@@ -111,17 +191,17 @@ class ApiAuthController extends Controller{
      */
     public function register(Request $request) {
         
-        $phone_number = $request->get('phone_number');
+        $phone_number = $request->get('phone');
         $phone_number = $this->formatPhoneNumber($phone_number);
-        $operation_hash  = $request->get('operation_hash');
         $user_name = $request->get('name');
         $password = $request->get('password');
         
-        $registerAttempt = ClientRegisterAttempt::where('operation_hash', '=', $operation_hash)->first();
-    
-        if(isset($registerAttempt->id) ){
+        $registerAttempt = ClientRegister::where('phone_number', '=', $phone_number)->first();
+        
+        if(isset($registerAttempt->id)){
             
-            if($registerAttempt->confirmed == 1){
+            if($registerAttempt->status == 'checked'){
+                
                 $client = new Client();
                 $client->name = $user_name;
                 $client->phone = $phone_number;
