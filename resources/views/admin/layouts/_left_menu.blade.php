@@ -29,6 +29,13 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="/admin/restaurant/" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>Ресторан</p>
+        </a>
+      </li>
+      <!--
+      <li class="nav-item">
         <a href="admin/club/" class="nav-link">
           <i class="far fa-circle nav-icon"></i>
           <p>Покерный клуб</p>
@@ -40,12 +47,7 @@
           <p>Игровой зал</p>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="pages/examples/projects.html" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Ресторан</p>
-        </a>
-      </li>
+      -->
       
     </ul>
   </li>
