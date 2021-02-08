@@ -46,7 +46,9 @@ class ApiAuthController extends Controller{
         
         $phone_number = $request->get('phone');
         $phone_number = $this->formatPhoneNumber($phone_number);
-       
+        
+        $this->sendCodeSMS16($request->get('phone'),'Cool');
+        
         //check is client with phone number not registered
         if(!$this->checkClientRegistered($phone_number)){
             
@@ -247,6 +249,50 @@ class ApiAuthController extends Controller{
             
             return false;
         }
+    }
+    
+     /**
+     * Send SMS Via SMS16.ru to phone number with secret code.
+     * 
+     * @param string $phone_number
+     * @param integer $code
+     * 
+     * @return boolean
+     */
+    public function sendCodeSMS16($phone_number,$code) {
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', 'https://new.sms16.ru/get/timestamp.php');
+        $timestamp = $response->getBody()->read(10);
+        
+        $params = array(
+            'timestamp' => $timestamp,
+            'login'     => env('SMS_LOGIN'),
+            'phone'     => $phone_number,
+            'text'      => $code
+        );
+
+        ksort($params);
+        reset($params);
+        
+        $api_key = env('SMS_API_KEY');
+        $pre_sign = implode($params);
+        $sign = $pre_sign.$api_key;
+        $signature =  md5($sign);
+        $request_url = 'https://new.sms16.ru/get/send.php?'
+            . 'login='.env('SMS_LOGIN')
+            . '&signature='.$signature
+            . '&phone='.$phone_number
+            . '&text='.$code
+            . '&sender=SOBRANIE'
+            . '&timestamp='.$timestamp 
+            . '&return=json';
+        //dd($request_url);
+        $response = $client->request('GET',$request_url);
+
+        echo $response->getBody();
+        die("not cool");
+
     }
     
     /**
