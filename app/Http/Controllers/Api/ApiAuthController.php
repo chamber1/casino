@@ -35,7 +35,7 @@ class ApiAuthController extends Controller{
     *
     * @var integer
     */
-    public $allowed_sms_interval = 0;
+    public $allowed_sms_interval = 1;
     /**
      * Access point to Client who trying to register.
      * Generate 4 digits code and send via SMS
@@ -47,7 +47,7 @@ class ApiAuthController extends Controller{
         $phone_number = $request->get('phone');
         $phone_number = $this->formatPhoneNumber($phone_number);
         
-        $this->sendCodeSMS16($request->get('phone'),'Cool');
+        //$this->sendCodeSMS16($request->get('phone'),'Cool');
         
         //check is client with phone number not registered
         if(!$this->checkClientRegistered($phone_number)){
