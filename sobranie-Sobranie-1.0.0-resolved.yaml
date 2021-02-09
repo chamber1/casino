@@ -1,0 +1,243 @@
+---
+swagger: "2.0"
+info:
+  description: This is a simple API
+  version: 1.0.0
+  title: Simple Inventory API
+  contact:
+    email: yurenkoyura@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: virtserver.swaggerhub.com
+basePath: /sobranie/Sobranie/1.0.0
+tags:
+- name: Auth
+  description: Everything for client authorize
+- name: Events
+  description: Events
+schemes:
+- https
+paths:
+  /api/auth/getcode:
+    post:
+      tags:
+      - Auth
+      summary: Send SMS by phone_number
+      description: Send SMS with  4 digits code and check if user registered
+      operationId: sendSMS
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: phone
+        description: Phone number for send
+        required: true
+        schema:
+          $ref: '#/definitions/Smsparams'
+      responses:
+        "200":
+          description: sms sended if client not registered
+          schema:
+            $ref: '#/definitions/SmsResponse'
+        "201":
+          description: if client registered
+          schema:
+            $ref: '#/definitions/ClientRegistered'
+  /api/auth/checkcode:
+    post:
+      tags:
+      - Auth
+      summary: Checks client sended via SMS code
+      description: Check code if checked
+      operationId: checkCode
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: code recieved via SMS
+        required: true
+        schema:
+          $ref: '#/definitions/Checkcode'
+      responses:
+        "200":
+          description: sms sended if client not registered
+          schema:
+            $ref: '#/definitions/SmsResponse'
+        "201":
+          description: if client already registered
+          schema:
+            $ref: '#/definitions/ClientRegistered'
+  /api/auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Register client with phone number and password
+      description: Perform cliens registration with operation_hash after check code
+      operationId: register
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Parameters phone ,operation hash after code check and client password
+        required: true
+        schema:
+          $ref: '#/definitions/RegisterBody'
+      responses:
+        "200":
+          description: if client registered succesfully
+          schema:
+            $ref: '#/definitions/RegisterResponse'
+        "400":
+          description: if registration fails
+          schema:
+            $ref: '#/definitions/RegisterFail'
+  /api/auth/login:
+    post:
+      tags:
+      - Auth
+      summary: Login client with phone number and password
+      description: Perform cliens login with phone number and password
+      operationId: login
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Parameters phone and client password
+        required: true
+        schema:
+          $ref: '#/definitions/LoginBody'
+      responses:
+        "200":
+          description: if client logged succesfully
+          schema:
+            $ref: '#/definitions/LoginSuccess'
+        "401":
+          description: if login fails
+          schema:
+            $ref: '#/definitions/LoginFail'
+  /api/events:
+    get:
+      tags:
+      - Events
+      summary: Get all events
+      description: Perform cliens login with phone number and password
+      operationId: events
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: if client logged succesfully
+          schema:
+            $ref: '#/definitions/LoginSuccess'
+        "401":
+          description: if login fails
+          schema:
+            $ref: '#/definitions/LoginFail'
+definitions:
+  Smsparams:
+    properties:
+      phone:
+        type: string
+        example: 380XXXXXXXXX
+  SmsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        example: Secret code sended
+      operation_hash:
+        type: string
+        example: $2y$10$qTecgZ0N2aVpD7JTJVvNN.GI0EA7oPZ.EWIrob3wJzOR2NC/BHBdu
+      client_status:
+        type: string
+        example: new
+      code:
+        type: integer
+        example: 5465
+  RegisterBody:
+    type: object
+    properties:
+      phone:
+        type: string
+        example: 380XXXXXXXXX
+      opreration_hash:
+        type: string
+        example: $2y$10$qTecgZ0N2aVpD7JTJVvNN.GI0EA7oPZ.EWIrob3wJzOR2NC/BHBdu
+      password:
+        type: string
+        example: clientpassword
+  RegisterResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        example: Client registered succesfully
+      id:
+        type: integer
+        example: 7
+  RegisterFail:
+    type: object
+    properties:
+      error:
+        type: string
+        example: Client not registered
+  Checkcode:
+    type: object
+    properties:
+      operation_hash:
+        type: string
+        example: $2y$10$qTecgZ0N2aVpD7JTJVvNN.GI0EA7oPZ.EWIrob3wJzOR2NC/BHBdu
+      code:
+        type: integer
+        example: 5465
+  LoginBody:
+    type: object
+    properties:
+      phone:
+        type: string
+        example: 380XXXXXXXXX
+      password:
+        type: string
+        example: password
+  LoginSuccess:
+    type: object
+    properties:
+      access_token:
+        type: string
+        example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9jYXNpbm8ubG9jXC9hcGlcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNjEyNTI4NTc4LCJleHAiOjE2MTI1MzIxNzgsIm5iZiI6MTYxMjUyODU3OCwianRpIjoic2FnZHhtVDJQblJrdnRKdiIsInN1YiI6NywicHJ2IjoiNDFlZmI3YmFkN2Y2ZjYzMmUyNDA1YmQzYTc5M2I4YTZiZGVjNjc3NyJ9.7COQRrk0zRZaCoG-ZCuEe_DqdLELIk7ioPrQF8K_A60
+      token_type:
+        type: string
+        example: bearer
+      expires_in:
+        type: integer
+        example: 36000
+  LoginFail:
+    type: object
+    properties:
+      error:
+        type: string
+        example: Unauthorized
+  ClientRegistered:
+    type: object
+    properties:
+      client_status:
+        type: string
+        example: registered
+      id:
+        type: integer
+        example: 7
