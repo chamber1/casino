@@ -35,7 +35,7 @@ class ApiAuthController extends Controller{
     *
     * @var integer
     */
-    public $allowed_sms_interval = 0;
+    public $allowed_sms_interval = 1;
     /**
      * Access point to Client who trying to register.
      * Generate 4 digits code and send via SMS
@@ -106,9 +106,14 @@ class ApiAuthController extends Controller{
                     
                     return response()->json([
                         'message' => 'Resending code will be after '.$this->allowed_sms_interval.' minute(s)',
-                    ]);
+                    ],202);
                 }
             }
+        }else{
+            
+            return response()->json([
+                  'client_status' => 'registered',
+                ],201);
         }
     }   
     
@@ -123,9 +128,9 @@ class ApiAuthController extends Controller{
      */
     public function checkClientRegistered($phone_number){
         
-        $client = Client::where('phone', '=', $phone_number)->get();
+        $client = Client::where('phone', '=', $phone_number)->first();
 
-        if(isset($client[0]->id)){
+        if(isset($client->id)){
            return true;
         }else{
             return false;
@@ -150,13 +155,13 @@ class ApiAuthController extends Controller{
         
         if(isset($registerAttempt->id) ){
                 
-            if($registerAttempt->status == 'failed'){
+            if($registerAttempt->status == 'failed' || $registerAttempt->attempts == 3){
                 
                 return response()->json([
                     'error' => 'Secret code Failed',
-                ],400);
+                ],401);
             }
-            
+           
             if($registerAttempt->code == $code){
                 
                 $registerAttempt->status = 'checked';
@@ -164,7 +169,8 @@ class ApiAuthController extends Controller{
                 
                 return response()->json([
                     'message' => 'Code is checked',
-                ]);
+                    'success' => true
+                ],200);
                 
             }else{
                 
@@ -173,7 +179,8 @@ class ApiAuthController extends Controller{
                 
                 return response()->json([
                     'error' => 'Secret code wrong',
-                ],400);
+                    'success' => false,
+                ],402);
             }
         }else{
             
@@ -239,14 +246,7 @@ class ApiAuthController extends Controller{
 
         $sms = $smsru->send_one($data);
 
-        if ($sms->status == "OK") { 
-            
-            return true;
-            
-        } else {
-            
-            return false;
-        }
+        return $sms->status == "OK"; 
     }
     
     /**
