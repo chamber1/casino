@@ -16,6 +16,10 @@ tags:
   description: Everything for client authorize
 - name: Events
   description: Events
+- name: Clients
+  description: Clients data
+- name: Restaurant
+  description: Restaurant data
 schemes:
 - https
 paths:
@@ -180,6 +184,123 @@ paths:
           description: Events data
           schema:
             $ref: '#/definitions/EventFields'
+  /api/event/{eventId}:
+    get:
+      tags:
+      - Events
+      summary: Get event with id
+      description: Return Event data with id
+      operationId: eventId
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: api_key
+        in: header
+        required: true
+        type: string
+      - name: eventId
+        in: path
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Events data
+          schema:
+            $ref: '#/definitions/EventFields'
+  /api/clients:
+    get:
+      tags:
+      - Clients
+      summary: Get all clients
+      description: Returns all clients data
+      operationId: clients
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: api_key
+        in: header
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Clients data
+          schema:
+            $ref: '#/definitions/ClientFields'
+  /api/client/{clientId}:
+    get:
+      tags:
+      - Clients
+      summary: Get client with id
+      description: Return Client data with id
+      operationId: clientId
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: api_key
+        in: header
+        required: true
+        type: string
+      - name: clientId
+        in: path
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Client data
+          schema:
+            $ref: '#/definitions/ClientFields'
+  /api/restaurants:
+    get:
+      tags:
+      - Restaurant
+      summary: Get all restaurants
+      description: Returns all restaurants data
+      operationId: restaurants
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: api_key
+        in: header
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Restaurants data
+          schema:
+            $ref: '#/definitions/RestaurantFields'
+  /api/restaurant/{restaurantId}:
+    get:
+      tags:
+      - Restaurant
+      summary: Get a Restaurant with id
+      description: Return Client data with id
+      operationId: restraurantId
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: api_key
+        in: header
+        required: true
+        type: string
+      - name: restaurantId
+        in: path
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Restaurant data
+          schema:
+            $ref: '#/definitions/RestaurantFields'
 definitions:
   Smsparams:
     properties:
@@ -320,6 +441,47 @@ definitions:
         type: string
         example: Event 1 description
       image_URL:
+        type: string
+        example: /uploads/images/events/601bfab1d0c43.jpg
+      created_at:
+        type: string
+        example: 2021-02-04T14:22:39.000000Z
+      updated_at:
+        type: string
+        example: 2021-02-04T14:22:39.000000Z"
+  ClientFields:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 1
+      name:
+        type: string
+        example: John Smith
+      phone:
+        type: string
+        example: 380XXXXXXXXX
+      status_id:
+        type: integer
+        example: 1
+      created_at:
+        type: string
+        example: 2021-02-04T14:22:39.000000Z
+      updated_at:
+        type: string
+        example: 2021-02-04T14:22:39.000000Z"
+  RestaurantFields:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 1
+      name:
+        type: string
+        example: Craft OFFSHORE
+      main_image_URL:
         type: string
         example: /uploads/images/events/601bfab1d0c43.jpg
       created_at:
