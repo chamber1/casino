@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   description: This is a simple API
   version: 1.0.0
-  title: Simple Inventory API
+  title: Casino Sobranie API for mobile applicaton
   contact:
     email: yurenkoyura@gmail.com
   license:
@@ -301,6 +301,31 @@ paths:
           description: Restaurant data
           schema:
             $ref: '#/definitions/RestaurantFields'
+  /api/menuImages/{restaurantId}:
+    get:
+      tags:
+      - Restaurant
+      summary: Get all menu images for restaurant with Id
+      description: Return image data with  restaurant id
+      operationId: imageId
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: api_key
+        in: header
+        required: true
+        type: string
+      - name: restaurantId
+        in: path
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Images data
+          schema:
+            $ref: '#/definitions/RestaurantImagesFields'
 definitions:
   Smsparams:
     properties:
@@ -482,6 +507,26 @@ definitions:
         type: string
         example: Craft OFFSHORE
       main_image_URL:
+        type: string
+        example: /uploads/images/events/601bfab1d0c43.jpg
+      created_at:
+        type: string
+        example: 2021-02-04T14:22:39.000000Z
+      updated_at:
+        type: string
+        example: 2021-02-04T14:22:39.000000Z"
+  RestaurantImagesFields:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 1
+      restaurant_id:
+        type: integer
+        format: int64
+        example: 3
+      menu_image_URL:
         type: string
         example: /uploads/images/events/601bfab1d0c43.jpg
       created_at:
