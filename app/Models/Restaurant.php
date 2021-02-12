@@ -17,16 +17,16 @@ class Restaurant extends Model
         'name', 'main_image_URL'
     ];
     
-    
+    /*
     protected $casts = [
         'images' => 'array',
-    ];
+    ];*/
     
     /**
      * Relationship with images table.
      *
      */
     public function images(){
-        return $this->hasMany('App\Models\RestaurantImage','restaurant_id');
+        return $this->hasMany('App\Models\RestaurantImage');
     }
 }

@@ -37,22 +37,19 @@
             <div class="fileupload fileupload-new" data-provides="fileupload">
                     <span class="btn btn-default btn-sm">
                         <span class="fileupload-new">Загрузить</span>
-                     <!--   {!! Form::file('menu_image_URL[]', null, array('class' => 'form-control','multiple'=>true,'accept'=>'image/*')) !!} -->
-                        
                         {{ Form::file('images[]', ['multiple']) }}
                     </span>
             </div>
-           
-            @if(isset($restaurant->menu_image_URL) && !empty($restaurant->menu_image_URL))
-                <span class="fileupload-preview">
-                        <a href="{{URL::to($restaurant->menu_image_URL)}}" target="_blank" >
-                            <img src="{{URL::to($restaurant->menu_image_URL)}}" style="max-height: 60px" class="img-responsive" alt="Image">
+           @if(isset($restaurant->images) && !empty($restaurant->images))
+                @foreach ($restaurant->images as $menu_image)
+                    <span class="fileupload-preview">
+                        <a href="{{URL::to($menu_image->menu_image_URL)}}" target="_blank" >
+                            <img src="{{URL::to($menu_image->menu_image_URL)}}" style="max-height: 100px" class="img-responsive" alt="Image">
                         </a>
                     </span>
-                
+                @endforeach
             @endif
         </div>
-
     </div>
     <!-- /.card-body -->
 

@@ -83,7 +83,7 @@ class RestaurantController extends Controller{
      * @return view
      */
     public function edit(RestaurantRequest $request,Restaurant $restaurant)
-    {   
+    { 
        return view('admin.restaurant.edit',compact('restaurant'));
     }
     
@@ -109,14 +109,24 @@ class RestaurantController extends Controller{
             $restaurant->main_image_URL = $this->copyImage($image);
         }
         
-        if ($request->hasFile('menu_image_URL'))
+        if ($request->hasFile('images'))
         {
-            if(file_exists(public_path($restaurant->menu_image_URL))) {
-                unlink(public_path($restaurant->menu_image_URL));
+            if(isset($restaurant->images) && !empty($restaurant->images)){
+                foreach ($restaurant->images as $menu_image){
+                   if(file_exists(public_path($menu_image->menu_image_URL))) {
+                       unlink(public_path($menu_image->menu_image_URL));
+                   }
+                }
             }
             
-            $image = $request->file('menu_image_URL');
-            $restaurant->menu_image_URL = $this->copyImage($image);
+            RestaurantImage::Where('restaurant_id','=',$restaurant->id)->delete();
+            $images = $request->file('images');
+            foreach ($images as $file) {
+                $menu_image = new RestaurantImage();
+                $menu_image->restaurant_id = $restaurant->id;
+                $menu_image->menu_image_URL = $this->copyImage($file);
+                $menu_image->save();
+            }
         }
         
         if ($restaurant->update()) {
@@ -136,8 +146,8 @@ class RestaurantController extends Controller{
         $restaurant = new Restaurant();
         $restaurant->name = $request->input('name');
         $restaurant->main_image_URL = null;
-        $restaurant->menu_image_URL = null;
         $restaurant->save();
+        $restaurant_id = $restaurant->id;
         
         if ($request->hasFile('main_image_URL'))
         {
@@ -145,27 +155,21 @@ class RestaurantController extends Controller{
             $restaurant->main_image_URL = $this->copyImage($image);
             $restaurant->save();
         }
-        /*
+        
         if ($request->hasFile('images'))
         {
-            $menu_image = new RestaurantImage();
-            $menu_image->restaurant_id = $restaurant->id;
             $images = $request->file('images');
             foreach ($images as $file) {
-                
+                $menu_image = new RestaurantImage();
+                $menu_image->restaurant_id = $restaurant_id;
                 $menu_image->menu_image_URL = $this->copyImage($file);
                 $menu_image->save();
             }
-           
-        }*/
+        }
         
-       
         if ($restaurant->id) {
-            
             return redirect('admin/restaurant/'.$restaurant->id.'/edit')->with('success', 'Запись успешно добавлена');
-           
         }else{
-            
             return redirect()->back()->with('error', 'Запись не добавлена');
         } 
 
@@ -219,7 +223,7 @@ class RestaurantController extends Controller{
     }
     
     /**
-     * Delete event and image for this event
+     * Delete restaurant and menu images for this restaurant
      *
      * @param Restaurant $restaurant 
      * 
@@ -230,11 +234,15 @@ class RestaurantController extends Controller{
         if(file_exists(public_path($restaurant->main_image_URL))) {
             unlink(public_path($restaurant->main_image_URL));
         }
-        /*
-        if(file_exists(public_path($restaurant->menu_image_URL))) {
-            unlink(public_path($restaurant->menu_image_URL));
+        
+        if(isset($restaurant->images) && !empty($restaurant->images)){
+            foreach ($restaurant->images as $menu_image){
+               if(file_exists(public_path($menu_image->menu_image_URL))) {
+                   unlink(public_path($menu_image->menu_image_URL));
+               }
+            }
         }
-        */
+        RestaurantImage::Where('restaurant_id','=',$restaurant->id)->delete();
         if($restaurant->delete()){
             return redirect('admin/restaurant/')->with('success', 'Запись успешно удалена');
         }

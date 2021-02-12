@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RestaurantImage extends Model
 {
+    protected $table = 'restaurant_images';
+    
     /**
      * The attributes that are mass assignable.
      *
