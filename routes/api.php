@@ -42,7 +42,26 @@ Route::group(['prefix' => 'forgotPassword','middleware' => 'apitoken'], function
 
 Route::group(['prefix' => 'events','middleware' => 'apitoken'], function () {
     
-    Route::post('all', 'Api\ApiEventController@events');
+    Route::get('all', 'Api\ApiEventController@events');
     
 });
+
+Route::group(['prefix' => 'restaurants','middleware' => 'apitoken'], function () {
+    
+    Route::get('/', 'Api\ApiRestarauntController@restaurants');
+
+});
+
+Route::group(['prefix' => 'restaurant','middleware' => 'apitoken'], function () {
+    
+    Route::get('/{id}', 'Api\ApiRestarauntController@restaurant');
+
+});
+
+Route::group(['prefix' => 'menuImages','middleware' => 'apitoken'], function () {
+    
+    Route::get('/{restaurantId}', 'Api\ApiRestarauntController@menuImages');
+
+});
+
   
