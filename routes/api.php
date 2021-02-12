@@ -32,6 +32,14 @@ Route::group(['prefix' => 'auth','middleware' => 'apitoken'], function () {
    
 });
 
+Route::group(['prefix' => 'forgotPassword','middleware' => 'apitoken'], function () {
+    
+    Route::post('getcode', 'Api\ApiForgotPasswordController@getCode');
+    Route::post('checkcode', 'Api\ApiForgotPasswordController@checkCode');
+    Route::post('newpassword', 'Api\ApiForgotPasswordController@newPassword');
+    
+});
+
 Route::group(['prefix' => 'events','middleware' => 'apitoken'], function () {
     
     Route::post('all', 'Api\ApiEventController@events');
