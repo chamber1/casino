@@ -56,10 +56,9 @@
                             <table id="table1" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                      <th>Название</th>
-                                      <th>Главное изображение</th>
-                                      <th>Изображение Меню</th>
-                                      <th>Действия</th>
+                                        <th>Название</th>
+                                        <th>Главное изображение</th>
+                                        <th>Действия</th>
 
                                     </tr>
                                 </thead>
@@ -109,7 +108,6 @@
                 columns: [
                     { data: 'name', name: 'name' },
                     { data: 'main_image_URL', name: 'main_image_URL',render: previewImg },
-                    { data: 'menu_image_URL', name: 'menu_image_URL',render: previewImg },
                     { data: 'action', name: 'action', width:'200px', orderable: false, searchable: false },
 
                 ]
@@ -118,7 +116,7 @@
         
         function previewImg(data, type, full, meta) {
            
-            return '<img height="100px" src="'+data+'" />';
+            return '<a href="'+data+'" target="_blank"><img height="100px" src="'+data+'" /></a>';
         }
         
     </script>
