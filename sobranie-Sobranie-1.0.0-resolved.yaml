@@ -254,7 +254,7 @@ paths:
         "200":
           description: Client data
           schema:
-            $ref: '#/definitions/ClientFields'
+            $ref: '#/definitions/ClientProfileFields'
   /api/restaurants:
     get:
       tags:
@@ -496,6 +496,40 @@ definitions:
       updated_at:
         type: string
         example: 2021-02-04T14:22:39.000000Z"
+  ClientProfileFields:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 1
+      name:
+        type: string
+        example: John Smith
+      phone:
+        type: string
+        example: 380XXXXXXXXX
+      status_id:
+        type: integer
+        example: 1
+      enable_notifications:
+        type: integer
+        example: 1
+      notifications_news:
+        type: integer
+        example: 1
+      notifications_poker:
+        type: integer
+        example: 1
+      notifications_cash_game:
+        type: integer
+        example: 1
+      created_at:
+        type: string
+        example: 2021-02-04T14:22:39.000000Z
+      updated_at:
+        type: string
+        example: 2021-02-04T14:22:39.000000Z
   RestaurantFields:
     type: object
     properties:
