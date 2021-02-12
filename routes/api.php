@@ -37,4 +37,12 @@ Route::group(['prefix' => 'events','middleware' => 'apitoken'], function () {
     Route::post('all', 'Api\ApiEventController@events');
     
 });
+
+
+Route::group(['prefix' => 'pokerClub','middleware' => 'apitoken'], function () {
+    
+    Route::get('/', 'Api\ApiPokerClubController@all');
+    Route::post('/{id}', 'Api\ApiPokerClubController@pokerClub');
+    
+});
   
