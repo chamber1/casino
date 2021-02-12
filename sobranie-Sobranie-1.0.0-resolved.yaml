@@ -20,6 +20,8 @@ tags:
   description: Clients data
 - name: Restaurant
   description: Restaurant data
+- name: Contacts
+  description: Casino contact data
 schemes:
 - https
 paths:
@@ -326,6 +328,27 @@ paths:
           description: Images data
           schema:
             $ref: '#/definitions/RestaurantImagesFields'
+  /api/contacts:
+    get:
+      tags:
+      - Contacts
+      summary: Get all restaurants
+      description: Returns all contacts data
+      operationId: contacts
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: api_key
+        in: header
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Contact data
+          schema:
+            $ref: '#/definitions/ContactFields'
 definitions:
   Smsparams:
     properties:
@@ -473,7 +496,7 @@ definitions:
         example: 2021-02-04T14:22:39.000000Z
       updated_at:
         type: string
-        example: 2021-02-04T14:22:39.000000Z"
+        example: 2021-02-04T14:22:39.000000Z
   ClientFields:
     type: object
     properties:
@@ -495,7 +518,7 @@ definitions:
         example: 2021-02-04T14:22:39.000000Z
       updated_at:
         type: string
-        example: 2021-02-04T14:22:39.000000Z"
+        example: 2021-02-04T14:22:39.000000Z
   ClientProfileFields:
     type: object
     properties:
@@ -548,7 +571,7 @@ definitions:
         example: 2021-02-04T14:22:39.000000Z
       updated_at:
         type: string
-        example: 2021-02-04T14:22:39.000000Z"
+        example: 2021-02-04T14:22:39.000000Z
   RestaurantImagesFields:
     type: object
     properties:
@@ -568,4 +591,16 @@ definitions:
         example: 2021-02-04T14:22:39.000000Z
       updated_at:
         type: string
-        example: 2021-02-04T14:22:39.000000Z"
+        example: 2021-02-04T14:22:39.000000Z
+  ContactFields:
+    type: object
+    properties:
+      phone_russia:
+        type: string
+        example: 8 800 100-89-08
+      phone_other:
+        type: string
+        example: +7 981 460-50-46
+      address:
+        type: string
+        example: Пос. Куликово,Калининградская область
