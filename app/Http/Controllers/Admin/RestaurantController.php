@@ -47,7 +47,7 @@ class RestaurantController extends Controller{
      */
     public function data() {
         
-        $tables = Restaurant::select(['id', 'name','main_image_URL','menu_image_URL']);
+        $tables = Restaurant::select(['id', 'name','main_image_URL']);
      
         return DataTables::of($tables)
             ->addColumn('action', function (Restaurant $tables) {
