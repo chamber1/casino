@@ -34,13 +34,14 @@
           <p>Ресторан</p>
         </a>
       </li>
-      <!--
+ 
       <li class="nav-item">
-        <a href="admin/club/" class="nav-link">
+        <a href="/admin/pokerclub/" class="nav-link">
           <i class="far fa-circle nav-icon"></i>
           <p>Покерный клуб</p>
         </a>
       </li>
+           <!--
       <li class="nav-item">
         <a href="pages/examples/e-commerce.html" class="nav-link">
           <i class="far fa-circle nav-icon"></i>
