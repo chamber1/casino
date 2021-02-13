@@ -14,6 +14,19 @@ class Restaurant extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'main_image_URL','menu_image_URL'
+        'name', 'main_image_URL'
     ];
+    
+    /*
+    protected $casts = [
+        'images' => 'array',
+    ];*/
+    
+    /**
+     * Relationship with images table.
+     *
+     */
+    public function images(){
+        return $this->hasMany('App\Models\RestaurantImage');
+    }
 }

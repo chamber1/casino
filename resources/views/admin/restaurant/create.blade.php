@@ -30,7 +30,7 @@
                             </ul>
                         </div>
                     @endif
-                    {!! Form::open(array( 'url'=>'admin/restaurant/store', 'method' => 'post', 'files' => true)) !!}
+                    {!! Form::open(array( 'url'=>'admin/restaurant/store', 'method' => 'post', 'files' => true,'multiple'=>true)) !!}
                         @include('admin.restaurant._form')
                     {!! Form::close() !!}
                 </div>
