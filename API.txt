@@ -1,0 +1,120 @@
+
+
+API ключ в заголовках параметр x-api-key
+
+======================================================================================
+отправка СМС и проверка зарегистрирован ли пользователь
+- application/json
+метод : POST  
+URL : /api/auth/getcode
+ТЕЛО :
+{
+    "phone":380XXXXXXXXX
+}
+
+
+пример ответа :
+{
+    "message": "Secret code Sended",
+    "client_status": "new",
+    "operation_hash": "$2y$10$KkUADD6reu09Rpv3WcSnEOzsPk4GaGKPBAWkzX9Dz2vPYB2yAUZ4y",  хеш операции для проверки кода
+    "code": 5636   на этапе разработки код будет приходить тут чтобы не тратить баланс заказчика
+}
+
+=====================================================================
+Проверка СМС кода
+- application/json
+метод : POST 
+URL :/api/auth/checkcode
+ТЕЛО :
+{
+    "operation_hash": "$2y$10$KkUADD6reu09Rpv3WcSnEOzsPk4GaGKPBAWkzX9Dz2vPYB2yAUZ4y",
+    "code": 5636
+}
+
+пример отета :
+
+{
+    "message": "Code is checked",
+    "operation_hash": "$2y$10$3g4DwNpFWcBBARMM.bwqBeZm5235pH9rUYzfZnwQP2.4ZuC4y.GIS" хеш операции для регистрации нового пользователя,полученный при успешной проверке кода
+}
+если код не верный : 
+
+{
+    "error": "Secret code wrong"
+}
+===============================================================================
+Регистрация
+- application/json
+метод : POST 
+URL:/api/auth/register
+{
+    "phone":380XXXXXXXXX,
+    "operation_hash" : "$2y$10$3g4DwNpFWcBBARMM.bwqBeZm5235pH9rUYzfZnwQP2.4ZuC4y.GIS",
+    "password":some_password
+
+}
+
+
+пример ответа : 
+{
+    "message": "Client registered",
+    "client_id": 6
+}
+============================================================================================
+Авторизация
+- application/json
+метод : POST 
+URL:/api/auth/login
+ТЕЛО :
+{
+	"phone":"380XXXXXXXXX",
+	"password":"client_password"
+}
+
+пример ответа успешного логина {
+
+
+    	"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9jYXNpbm8ubG9jXC9hcGlcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNjEyNTA5NzI5LCJleHAiOjE2MTI1MTMzMjksIm5iZi	I6MTYxMjUwOTcyOSwianRpIjoic3VqcXFQc29lNWRIbUd5QSIsInN1YiI6NywicHJ2IjoiNDFlZmI3YmFkN2Y2ZjYzMmUyNDA1YmQzYTc5M2I4YTZiZGVjNjc3NyJ9.aADuIiP2TU2fzzurKyA5i-	VXPN0ScbAkctPwj_72_iQ",
+    	"token_type": "bearer",
+    	"expires_in": 36000
+}
+
+
+======================================================================================================
+
+в дальнейшем данные операции будут возможно только при проверке токена "access_token"  полученного при авторизации
+Акции и мероприятия
+- application/json
+метод : POST 
+URL :http://casino.loc/api/events
+ТЕЛО :
+{
+    "events": [
+        {
+            "id": 1,
+            "name": "Акция 1",
+            "description": "Описание акции 1",
+            "image_URL": "/uploads/images/events/601bfab1d0c43.jpg",
+            "created_at": "2021-02-04T13:46:25.000000Z",
+            "updated_at": "2021-02-04T13:46:25.000000Z"
+        },
+        {
+            "id": 2,
+            "name": "Акция 2",
+            "description": "Описание акции 2",
+            "image_URL": "/uploads/images/events/601c032f0b260.jpg",
+            "created_at": "2021-02-04T14:22:39.000000Z",
+            "updated_at": "2021-02-04T14:22:39.000000Z"
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+

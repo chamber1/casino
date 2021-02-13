@@ -3,9 +3,9 @@
 namespace App\Models;
 use \Illuminate\Database\Eloquent\Model;
 
-class ClientRegisterAttempt extends Model {
+class ClientRegister extends Model {
     
-    protected $table = 'client_register_attempt';
+    protected $table = 'client_register';
     
     /**
      * The attributes that are mass assignable.
@@ -14,7 +14,7 @@ class ClientRegisterAttempt extends Model {
      */
     protected $fillable = [
         'phone_number', 'code',
-        'operation_hash','confirmed'
+        'attempts','status'
     ];
     
 }
