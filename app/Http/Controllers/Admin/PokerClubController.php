@@ -46,7 +46,7 @@ class PokerClubController extends Controller{
      */
     public function data() {
         
-        $tables = PokerClub::select(['id', 'name','icon','by_in','stack','levels']);
+        $tables = PokerClub::select(['id', 'name','icon','warranty','by_in','stack','levels']);
         
         return DataTables::of($tables)
             ->addColumn('action', function (PokerClub $tables) {
@@ -97,6 +97,7 @@ class PokerClubController extends Controller{
     public function update(PokerClubRequest $request,PokerClub $pokerclub)
     {
         $pokerclub->name = $request->input('name');
+        $pokerclub->warranty = $request->input('warranty');
         $pokerclub->by_in = $request->input('by_in');
         $pokerclub->stack = $request->input('stack');
         $pokerclub->levels = $request->input('levels');
@@ -135,6 +136,7 @@ class PokerClubController extends Controller{
     {
         $club = new PokerClub();
         $club->name = $request->input('name');
+        $club->warranty = $request->input('warranty');
         $club->by_in = $request->input('by_in');
         $club->stack = $request->input('stack');
         $club->levels = $request->input('levels');

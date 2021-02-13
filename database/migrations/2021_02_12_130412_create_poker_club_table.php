@@ -17,6 +17,7 @@ class CreatePokerClubTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon',250)->nullable();
+            $table->string('warranty')->nullable();
             $table->string('by_in')->nullable();
             $table->string('stack')->nullable();
             $table->string('levels')->nullable();

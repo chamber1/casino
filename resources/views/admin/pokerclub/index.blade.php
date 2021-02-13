@@ -58,6 +58,7 @@
                                     <tr>
                                       <th>Название</th>
                                       <th>Иконка</th>
+                                      <th>Гарантия</th>
                                       <th>Бай ин</th>
                                       <th>Стек</th>
                                       <th>Уровни</th>
@@ -109,6 +110,7 @@
                 columns: [
                     { data: 'name', name: 'name' },
                     { data: 'icon', name: 'icon',render: previewImg},
+                    { data: 'warranty', name: 'warranty'},
                     { data: 'by_in', name: 'by_in', },
                     { data: 'stack', name: 'stack', },
                     { data: 'levels', name: 'levels', },

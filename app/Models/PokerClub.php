@@ -14,7 +14,7 @@ class PokerClub extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'icon','by_in',
+        'name', 'icon','warranty','by_in',
         'stack','levels'
     ];
 }

@@ -31,6 +31,10 @@
             @endif
         </div>
         <div class="form-group">
+          <label for="name">Гарантия</label>
+          {!! Form::text('warranty', null, array('class' => 'form-control', 'placeholder'=>'')) !!}
+        </div>
+        <div class="form-group">
           <label for="name">Бай Ин</label>
           {!! Form::text('by_in', null, array('class' => 'form-control', 'placeholder'=>'')) !!}
         </div>
