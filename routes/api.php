@@ -46,11 +46,7 @@ Route::group(['prefix' => 'events','middleware' => 'apitoken'], function () {
     
 });
 
-Route::group(['prefix' => 'restaurants','middleware' => 'apitoken'], function () {
-    
-    Route::get('/', 'Api\ApiRestarauntController@restaurants');
 
-});
 
 Route::group(['prefix' => 'restaurant','middleware' => 'apitoken'], function () {
     
@@ -64,4 +60,11 @@ Route::group(['prefix' => 'menuImages','middleware' => 'apitoken'], function () 
 
 });
 
-  
+=======
+
+Route::group(['prefix' => 'pokerClub','middleware' => 'apitoken'], function () {
+    
+    Route::get('/', 'Api\ApiPokerClubController@all');
+    Route::post('/{id}', 'Api\ApiPokerClubController@pokerClub');
+    
+});

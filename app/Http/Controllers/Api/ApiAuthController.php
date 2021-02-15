@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use SMSRU;
@@ -36,6 +37,7 @@ class ApiAuthController extends Controller{
     * @var integer
     */
     public $allowed_sms_interval = 1;
+
     /**
      * Access point to Client who trying to register.
      * Generate 4 digits code and send via SMS
@@ -89,10 +91,10 @@ class ApiAuthController extends Controller{
                     
                     $code =  mt_rand(1000,9999);
                     $current_attempts = $registerAttempt->attempts;
-                    $new_attempt = $current_attempts+1;
-                    
+
                     $registerAttempt->code = $code;
-                    $registerAttempt->attempts = $new_attempt;
+                    $registerAttempt->attempts+=1;
+
                     $registerAttempt->status = 'new';
                     $registerAttempt->save();
                     
@@ -130,11 +132,9 @@ class ApiAuthController extends Controller{
         
         $client = Client::where('phone', '=', $phone_number)->first();
 
-        if(isset($client->id)){
-           return true;
-        }else{
-            return false;
-        }       
+        
+        return isset($client->id) ? true : false;
+
     }
     
     /**
@@ -150,7 +150,7 @@ class ApiAuthController extends Controller{
         $phone_number = $request->get('phone');
         $phone_number = $this->formatPhoneNumber($phone_number);
         $code =  $request->get('code');
-        
+
         $registerAttempt = ClientRegister::where('phone_number', '=', $phone_number)->first();
         
         if(isset($registerAttempt->id) ){
@@ -243,7 +243,6 @@ class ApiAuthController extends Controller{
         $data = new \stdClass();
         $data->to = $phone_number;
         $data->text = 'Your code is : '.$code;
-
         $sms = $smsru->send_one($data);
 
         return $sms->status == "OK"; 
@@ -269,11 +268,9 @@ class ApiAuthController extends Controller{
         
         $pos = strpos($phone_number,'+');
         if ($pos === false) {
-            
             return '+'.$phone_number;
         } 
         else{
-            
             return $phone_number;
         }
     }

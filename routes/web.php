@@ -74,4 +74,18 @@ Route::group(['prefix' => 'admin'],function () {
         Route::get('{restaurant}/delete', 'Admin\RestaurantController@destroy')->name('admin.restaurant.delete');
     });
     
+     //ENTITY POKER CLUB
+    Route::get('pokerclub', 'Admin\PokerClubController@index')->name('admin.pokerclub');
+    Route::get('pokerclub/data', 'Admin\PokerClubController@data')->name('admin.pokerclub.data');
+    
+    //POKER CLUB CRUD operations
+    Route::group(['prefix' => 'pokerclub'], function () {
+        
+        Route::get('create', 'Admin\PokerClubController@create')->name('admin.pokerclub.create');
+        Route::post('store', 'Admin\PokerClubController@store')->name('admin.pokerclub.store');
+        Route::get('{pokerclub}/edit', 'Admin\PokerClubController@edit')->name('admin.pokerclub.edit');
+        Route::post('{pokerclub}/update', 'Admin\PokerClubController@update')->name('admin.pokerclub.update');
+        Route::get('{pokerclub}/confirm-delete', 'Admin\PokerClubController@getModalDelete')->name('admin.pokerclub.delete');
+        Route::get('{pokerclub}/delete', 'Admin\PokerClubController@destroy')->name('admin.pokerclub.delete');
+    });
 });
