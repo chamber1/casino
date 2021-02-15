@@ -17,7 +17,6 @@ class CreateRestaurantTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('main_image_URL',250)->nullable();
-            $table->string('menu_image_URL',250)->nullable();
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });
